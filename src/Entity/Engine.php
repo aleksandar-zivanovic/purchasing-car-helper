@@ -17,7 +17,7 @@ class Engine
     #[ORM\Column(length: 20)]
     private ?string $fuelType = null;
 
-    #[ORM\Column(type: Types::FLOAT)]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $engineDisplacement = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
@@ -31,48 +31,48 @@ class Engine
         return $this->id;
     }
 
-    public function getfuelType(): ?string
+    public function getFuelType(): ?string
     {
         return $this->fuelType;
     }
 
-    public function setfuelType(string $fuelType): static
+    public function setFuelType(string $fuelType): static
     {
         $this->fuelType = $fuelType;
 
         return $this;
     }
 
-    public function getengineDisplacement(): ?int
+    public function getEngineDisplacement(): ?int
     {
         return $this->engineDisplacement;
     }
 
-    public function setengineDisplacement(int $engineDisplacement): static
+    public function setEngineDisplacement(int $engineDisplacement): static
     {
         $this->engineDisplacement = $engineDisplacement;
 
         return $this;
     }
 
-    public function getpowerKW(): ?int
+    public function getPowerKW(): ?int
     {
         return $this->powerKW;
     }
 
-    public function setpowerKW(int $powerKW): static
+    public function setPowerKW(int $powerKW): static
     {
         $this->powerKW = $powerKW;
 
         return $this;
     }
 
-    public function getpowerHP(): ?int
+    public function getPowerHP(): ?int
     {
         return $this->powerHP;
     }
 
-    public function setpowerHP(int $powerHP): static
+    public function setPowerHP(int $powerHP): static
     {
         $this->powerHP = $powerHP;
 

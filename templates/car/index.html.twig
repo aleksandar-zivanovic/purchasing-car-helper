@@ -3,7 +3,53 @@
 {% block title %}Hello CarController!{% endblock %}
 
 {% block body %}
-    <h1 class="text-3xl font-bold underline">
-        Hello world!
-    </h1>
+<div>
+    {% for car in cars %}
+        <h2 class="text-3xl font-bold underline">
+            {{ car.brand }}
+            {{ car.model }}
+            {{ (car.engine.engineDisplacement / 1000)|format_number({rounding_mode: 'floor', fraction_digit: 1}) }}
+            {{ car.engine.fuelType|slice(0, 1) }}
+            - {{ car.price }} {{ 'EUR'|currency_symbol }}
+        </h2>
+
+        <div>
+            <img src="{{ car.image }}" alt="{{ car.brand }} {{ car.model }} {{ car.bodyType }} {{ car.engine.powerKW }} KW / {{ car.engine.powerHP }} HP" width="300" height="400">
+        </div>
+
+        <div>
+            <p><strong>Model Information</strong></p>
+            <p>Brand: {{ car.brand }}</p>
+            <p>Model: {{ car.model }}</p>
+            <p>Model: {{ car.bodyType }}</p>
+        </div>
+        <div>
+            <p><strong>Engine</strong></p>
+            <p>Engine Displacement: {{ car.engine.engineDisplacement }}</p>
+            <p>Engine Power: {{ car.engine.powerKW }}KW / {{ car.engine.powerHP }}HP</p>
+        </div>
+        <div>
+            <p><strong>General Information</strong></p>
+            <p>Registered till: {{ car.registrationExpirationDate|date("m/Y") }}</p>
+            <p>Description: {{ car.description }}</p>
+            <p>URL: <a href="{{ car.url }}" target="_blank"><u>Click here to visit the add</u></a></p>
+            {% if car.comment %}
+                <p>Comment: {{ car.comment }}</p>
+            {% endif %}
+            <p class="car-price">Price: {{ car.price }} {{ 'EUR'|currency_symbol }}</p>
+        </div>
+
+        <div>
+            <p><strong>Seller Contact Information</strong></p>
+            <p>Location: {{ car.seller.location }}</p>
+            <p>Phone: {{ car.seller.phone }}</p>
+            <p>Contacted: YES / NO</p>
+            <p>Date: 1111/01/01</p>
+            <p>Comment: Comment about the communication with the seller</p>
+        </div>
+
+
+    {% endfor %}
+</div>
+    
 {% endblock %}
