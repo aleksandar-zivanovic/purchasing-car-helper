@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CarController extends AbstractController
 {
-    #[Route('/', name: 'app_car')]
+    #[Route('/', name: 'app_cars_index')]
     public function index(CarRepository $carRepository): Response
     {
         $allCars = $carRepository->allCarsWithAllDetails();
