@@ -21,6 +21,17 @@ class CarRepository extends ServiceEntityRepository
         parent::__construct($registry, Car::class);
     }
 
+    public function allCarsWithAllDetails(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c', 'e', 's', 'cm')
+            ->leftJoin('c.engine', 'e')
+            ->leftJoin('c.seller', 's')
+            ->leftjoin('s.communications', 'cm')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Car[] Returns an array of Car objects
     //     */

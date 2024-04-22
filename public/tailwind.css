@@ -504,9 +504,9 @@ video {
 .block {
   display: block;
 }
-.text-3xl {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 .font-bold {
   font-weight: 700;
@@ -516,9 +516,34 @@ video {
 }
 
 html {
-    background-color: aqua;
+    background-color: rgb(245, 245, 245);
+}
+
+.car-info-wrapper {
+    margin: 0 2rem;
+
+    > .car-title {
+        margin: 1rem 0;
+    }
 }
 
 .car-price {
     font-size: 3rem;
+}
+
+.communications {
+    border: 0.1rem solid black;
+}
+
+.communications .comments {
+    padding: 2rem;
+    background-color: gainsboro;
+}
+
+.communications .comment-date {
+    padding: 0.5rem 0;
+    color: white;
+    font-weight: bold;
+    font-style: italic;
+    background-color: rgb(154, 139, 139);
 }
