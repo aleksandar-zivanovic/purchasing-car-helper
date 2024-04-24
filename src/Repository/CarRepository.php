@@ -32,6 +32,17 @@ class CarRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function singleCarWithAllDetails(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c', 'e', 's', 'cm')
+            ->leftJoin('c.engine', 'e')
+            ->leftJoin('c.seller', 's')
+            ->leftjoin('s.communications', 'cm')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Car[] Returns an array of Car objects
     //     */

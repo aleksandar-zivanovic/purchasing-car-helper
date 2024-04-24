@@ -547,3 +547,8 @@ html {
     font-style: italic;
     background-color: rgb(154, 139, 139);
 }
+
+.car-info-wrapper {
+    background-color: greenyellow;
+    padding: 4rem;
+}

@@ -1,3 +1,59 @@
-body {
-    background-color: lightgray;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    background-color: rgb(245, 245, 245);
+}
+
+.car-info-wrapper {
+    margin: 0 2rem;
+
+    .car-title {
+        margin: 1rem 0;
+    }
+
+    .carimage {
+        margin-bottom: 1rem;
+    }
+
+    .information {
+        margin-bottom: 1.5rem;
+    }
+
+    > .moreinfo {
+        color: black;
+        font-weight: 600;
+        font-style: italic;
+        text-decoration: underline;
+        letter-spacing: 1rem;
+        text-align: center;
+    }
+
+    > .moreinfo:hover {
+        text-shadow: 0.1rem 0.1rem 0.1rem grey;
+    }
+}
+
+.car-price {
+    font-size: 3rem;
+}
+
+.communications {
+    margin-top: 1rem;
+    border: 0.1rem solid black;
+}
+
+.communications .comments {
+    padding: 2rem;
+    background-color: gainsboro;
+}
+
+.communications .comment-date {
+    padding: 0.5rem 0;
+    padding-left: 0.5rem;
+    color: white;
+    font-weight: bold;
+    font-style: italic;
+    background-color: rgb(154, 139, 139);
 }

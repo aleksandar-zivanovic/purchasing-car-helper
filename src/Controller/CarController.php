@@ -15,7 +15,17 @@ class CarController extends AbstractController
         $allCars = $carRepository->allCarsWithAllDetails();
 
         return $this->render('car/index.html.twig', [
-            'cars' => $allCars,
+            'data' => $allCars,
+        ]);
+    }
+
+    #[Route('/show/{id}', name: 'app_show_car')]
+    public function show($id, CarRepository $carRepository): Response
+    {
+        $theCar = $carRepository->singleCarWithAllDetails($id);
+
+        return $this->render('car/index.html.twig', [
+            'data' => $theCar,
         ]);
     }
 }

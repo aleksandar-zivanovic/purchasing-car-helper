@@ -6,6 +6,7 @@
     "autoprefixer": "^10.4.19",
     "core-js": "^3.23.0",
     "postcss": "^8.4.38",
+    "postcss-loader": "^7.3.4",
     "regenerator-runtime": "^0.13.9",
     "tailwindcss": "^3.4.3",
     "webpack": "^5.74.0",
@@ -17,8 +18,8 @@
   "scripts": {
     "dev-server": "encore dev-server",
     "dev": "encore dev",
-    "build": "postcss ./tailwind/main.css -o public/tailwind.css",
-    "watch": "postcss ./tailwind/main.css -o public/tailwind.css -w"
+    "build": "encore production",
+    "watch": "encore dev --watch"
   },
   "name": "purchasing_car_helper",
   "version": "1.0.0",

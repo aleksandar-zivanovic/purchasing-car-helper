@@ -3,57 +3,80 @@
 {% block title %}Hello CarController!{% endblock %}
 
 {% block body %}
+{% if app.current_route == "app_cars_index" %}
+    {% set var = "flex-none" %}
+{% else %}
+    {% set var = "" %}
+{% endif %}
+
 <div>
-    {% for car in cars %}
-    
+    {% for car in data %}
         <div class="car-info-wrapper">
-            <h2 class="car-title text-2xl font-bold underline">
-                {{ car.brand }}
-                {{ car.model }}
-                {{ (car.engine.engineDisplacement / 1000)|format_number({rounding_mode: 'floor', fraction_digit: 1}) }}
-                {{ car.engine.fuelType|slice(0, 1) }}
-                - {{ car.price }} {{ 'EUR'|currency_symbol }}
-            </h2>
+            {% if var == "flex-none" %}
+                <a href="{{ path('app_show_car', {id: car.id}) }}" target='_blank'>
+            {% endif %}
+                <h2 class="car-title text-2xl font-bold underline">
+                    {{ car.brand }}
+                    {{ car.model }}
+                    {{ (car.engine.engineDisplacement / 1000)|format_number({rounding_mode: 'floor', fraction_digit: 1}) }}
+                    {{ car.engine.fuelType|slice(0, 1) }} - {{ car.price }} {{ 'EUR'|currency_symbol }}
+                </h2>
+            {% if var == "flex-none" %}
+                </a>
+            {% endif %}
 
-            <div>
-                <img src="{{ car.image }}" alt="{{ car.brand }} {{ car.model }} {{ car.bodyType }} {{ car.engine.powerKW }} KW / {{ car.engine.powerHP }} HP" width="300" height="400">
-            </div>
-
-            <div>
-                <p><strong>Model Information</strong></p>
-                <p>Brand: {{ car.brand }}</p>
-                <p>Model: {{ car.model }}</p>
-                <p>Model: {{ car.bodyType }}</p>
-            </div>
-            <div>
-                <p><strong>Engine</strong></p>
-                <p>Engine Displacement: {{ car.engine.engineDisplacement }}</p>
-                <p>Engine Power: {{ car.engine.powerKW }}KW / {{ car.engine.powerHP }}HP</p>
-            </div>
-            <div>
-                <p><strong>General Information</strong></p>
-                <p>Registered till: {{ car.registrationExpirationDate|date("m/Y") }}</p>
-                <p>Description: {{ car.description }}</p>
-                <p>URL: <a href="{{ car.url }}" target="_blank"><u>Click here to visit the add</u></a></p>
-                {% if car.comment %}
-                    <p>Comment: {{ car.comment }}</p>
-                {% endif %}
-                <p class="car-price">Price: {{ car.price }} {{ 'EUR'|currency_symbol }}</p>
-            </div>
-
-            <div>
-                <p><strong>Seller Contact Information</strong></p>
-                <p>Location: {{ car.seller.location }}</p>
-                <p>Phone: {{ car.seller.phone }}</p>
-                <p>Contacted: YES / NO</p>
-
-                <div class="communications">
-                    {% for item in car.seller.communications %}
-                        <p class="comment-date">{{ item.date|date('Y-m-d h:i:s') }}</p>
-                        <p class="comments">{{ item.comment }}</p>
-                    {% endfor %}
+            <div {% if var == "flex-none"%}class="flex"{% endif %}>
+                <div class="carimage {% if var == 'flex-none'%}{{ var }}{% endif %}">
+                    <img src="{{ car.image }}" alt="{{ car.brand }} {{ car.model }} {{ car.bodyType }} {{ car.engine.powerKW }} KW / {{ car.engine.powerHP }} HP" width="300" height="400">
                 </div>
+
+                <div {% if var == "flex-none" %}class="flex-none ml-5"{% endif %}>
+                    <div class="information">
+                        <p><strong>Model Information</strong></p>
+                        <p>Brand: {{ car.brand }}</p>
+                        <p>Model: {{ car.model }}</p>
+                        <p>Model: {{ car.bodyType }}</p>
+                    </div>
+                    <div class="information">
+                        <p><strong>Engine</strong></p>
+                        <p>Engine Displacement: {{ car.engine.engineDisplacement }}</p>
+                        <p>Engine Power: {{ car.engine.powerKW }}KW / {{ car.engine.powerHP }}HP</p>
+                    </div>
+                    <div class="information">
+                        <p><strong>General Information</strong></p>
+                        <p>Registered till: {{ car.registrationExpirationDate|date("m/Y") }}</p>
+                        <p>Description: {{ car.description }}</p>
+                        <p>URL: <a href="{{ car.url }}" target="_blank"><u>Click here to visit the add</u></a></p>
+                        {% if car.comment %}
+                            <p>Comment: {{ car.comment }}</p>
+                        {% endif %}
+                        <p class="car-price">Price: {{ car.price }} {{ 'EUR'|currency_symbol }}</p>
+                    </div>
+                </div>
+
+                {% if var != "flex-none" %} {# Hiding seller information on index page #}
+                    <div class="information">
+                        <p><strong>Seller Contact Information</strong></p>
+                        <p>Location: {{ car.seller.location }}</p>
+                        <p>Phone: {{ car.seller.phone }}</p>
+                        <p>Contacted: YES / NO</p>
+
+                        <div class="communications">
+                            {% for item in car.seller.communications %}
+                                <p class="comment-date">{{ item.date|date('Y-m-d h:i:s') }}</p>
+                                <p class="comments">{{ item.comment }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
             </div>
+
+            {% if var == "flex-none" %}
+                <div class="moreinfo">
+                    <a href="{{ path('app_show_car', {id: car.id}) }}">Click here for more info</a>
+                </div>
+            {% endif %}
+
         </div>
     {% endfor %}
 </div>
