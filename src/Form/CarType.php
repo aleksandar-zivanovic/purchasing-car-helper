@@ -41,6 +41,7 @@ class CarType extends AbstractType
             //     'class' => Seller::class,
             //     'choice_label' => 'id',
             // ])
+            ->add('seller', SellerType::class)
             ->add('submit', SubmitType::class, ['label' => 'Add new car'])
         ;
     }
