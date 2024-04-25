@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Car;
+use App\Entity\Communication;
 use App\Entity\Engine;
 use App\Entity\Seller;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -33,7 +34,21 @@ class AppFixtures extends Fixture
         $seller->setPhone("0691997660");
         $car->setSeller($seller);
         $car->setPrice(1600);
+
+        $communication1 = new Communication();
+        $communicationDate1 = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+        $communication1->setDate($communicationDate1);
+        $communication1->setSeller($seller);
+        $communication1->setComment("Ovo je lazni komentar koji sam dodao iz AppFixtures. On treba da prestavlja fejkovanu komunikacjiu sa prodavcem. Ovo je polje u koje unosite ono sto zelite u vezi komunikacije sa prodavcem konkretnog auta.");
+
+        $communication2 = new Communication();
+        $communicationDate2 = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+        $communication2->setDate($communicationDate2);
+        $communication2->setSeller($seller);
+        $communication2->setComment("Ovo je DRUGI lazni komentar koji sam dodao iz AppFixtures");
         
+        $manager->persist($communication1);
+        $manager->persist($communication2);
         $manager->persist($engine);
         $manager->persist($seller);
         $manager->persist($car);
