@@ -20,7 +20,7 @@ class Car
     #[ORM\Column(length: 25)]
     private ?string $model = null;
 
-    #[ORM\Column(length: 10)]
+    #[ORM\Column(length: 11)]
     private ?string $bodyType = null;
 
     #[ORM\ManyToOne]
