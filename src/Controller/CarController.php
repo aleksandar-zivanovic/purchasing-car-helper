@@ -42,6 +42,9 @@ class CarController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $car = $form->getData();
             dd($car);
+            // check if there is a seller with a phone number. If there is just add it, else make new seller
+
+            // compare all data from drop-down menu with allowed values
         }
 
         return $this->render('car/new.html.twig', [

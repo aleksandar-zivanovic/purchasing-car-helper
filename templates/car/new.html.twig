@@ -4,6 +4,107 @@
 
 {% block body %}
 
-    {{ form(form) }}
-    
+	<div class="form_wrapper">
+
+		<div class="formname">Insert ad's information</div>
+
+		{{ form_start(form) }}
+
+		<div class="sectiontitle">
+			<p class="-title">Basic car info</p>
+		</div>
+
+		<div class="formblock">
+			{{ form_label(form.brand, 'Car manufacturer', {'label_attr': {'class': '-label'}}) }}
+			{{ form_widget(form.brand, {'attr': {'class': '-widget'}}) }}
+		</div>
+
+		<div class="formblock">
+			{{ form_label(form.model, 'Car model', {'label_attr': {'class': '-label'}}) }}
+			{{ form_widget(form.model, {'attr': {'class': '-widget'}}) }}
+		</div class="formblock">
+
+		<div class="formblock">
+			{{ form_label(form.bodyType, 'Body type', {'label_attr': {'class': '-label'}}) }}
+			{{ form_widget(form.bodyType, {'attr': {'class': '-widget'}}) }}
+		</div>
+
+		<div class="formblock">
+			{{ form_label(form.registrationExpirationDate, 'Registration expiration date', {'label_attr': {'class': '-label'}}) }}
+			{{ form_widget(form.registrationExpirationDate, {'attr': {'class': '-widget'}}) }}
+		</div>
+
+		<div class="formblock">
+			{{ form_label(form.description, 'Description', {'label_attr': {'class': '-label'}}) }}
+			{{ form_widget(form.description, {'attr': {'class': '-widget'}}) }}
+		</div>
+
+		<div class="formblock">
+			{{ form_label(form.image, 'Image url', {'label_attr': {'class': '-label'}}) }}
+			{{ form_widget(form.image, {'attr': {'class': '-widget'}}) }}
+		</div>
+
+		<div class="formblock">
+			{{ form_label(form.url, 'Ad url', {'label_attr': {'class': '-label'}}) }}
+			{{ form_widget(form.url, {'attr': {'class': '-widget'}}) }}
+		</div class="formblock">
+
+		<div class="formblock">
+			{{ form_label(form.comment, 'Your comment', {'label_attr': {'class': '-label'}}) }}
+			{{ form_widget(form.comment, {'attr': {'class': '-widget'}}) }}
+		</div>
+
+		<div class="formblock">
+			{{ form_label(form.price, 'Car price', {'label_attr': {'class': '-label'}}) }}
+			{{ form_widget(form.price, {'attr': {'class': '-widget'}}) }}
+		</div>
+
+		<div class="sectiontitle">
+			<p class="-title">Seller info</p>
+		</div>
+
+		<div class="formblock">
+			{{ form_label(form.seller.location, 'Location', {'label_attr': {'class': '-label'}}) }}
+			{{ form_widget(form.seller.location, {'attr': {'class': '-widget'}}) }}
+		</div>
+
+		<div class="formblock">
+			{{ form_label(form.seller.phone, 'Phone number', {'label_attr': {'class': '-label'}}) }}
+			{{ form_widget(form.seller.phone, {'attr': {'class': '-widget'}}) }}
+		</div>
+
+		<div class="sectiontitle">
+			<p class="-title">Engine info</p>
+		</div>
+
+		<div class="formblock">
+			{{ form_label(form.engine.fuelType, 'Fuel', {'label_attr': {'class': '-label'}}) }}
+			{{ form_widget(form.engine.fuelType, {'attr': {'class': '-widget'}}) }}
+		</div>
+
+		<div class="formblock">
+			{{ form_label(form.engine.engineDisplacement, 'Engine displacement', {'label_attr': {'class': '-label'}}) }}
+			{{ form_widget(form.engine.engineDisplacement, {'attr': {'class': '-widget'}}) }}
+		</div>
+
+		<div class="formblock">
+			{{ form_label(form.engine.powerKW, 'Power KW', {'label_attr': {'class': '-label'}}) }}
+			{{ form_widget(form.engine.powerKW, {'attr': {'class': '-widget'}}) }}
+		</div>
+
+		<div class="formblock">
+			{{ form_label(form.engine.powerHP, 'Power HP', {'label_attr': {'class': '-label'}}) }}
+			{{ form_widget(form.engine.powerHP, {'attr': {'class': '-widget'}}) }}
+		</div>
+
+		<div class="formblock">
+			{{ form_widget(form.submit, {'attr': {'class': '-submit'}}) }}
+		</div>
+
+
+
+		{{ form_end(form) }}
+
+	</div>
+
 {% endblock %}

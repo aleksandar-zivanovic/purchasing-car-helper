@@ -57,3 +57,36 @@ html {
     font-style: italic;
     background-color: rgb(154, 139, 139);
 }
+
+/* fixed css */
+
+.form_wrapper {
+
+    > .formname {
+        @apply text-xl text-center p-4 uppercase;
+    }
+
+    .formblock {
+        @apply flex items-center justify-center drop-shadow-lg;
+
+        & .-label {
+            @apply align-text-top text-base text-gray-700 font-medium mr-1 w-1/6;
+        }
+        
+        & .-widget {
+            @apply shadow-sm border-gray-300 rounded-md border p-2 mt-1 mb-2 w-1/4;
+        }
+
+        & .-submit {
+            @apply shadow-sm border-gray-300 hover:bg-slate-50 rounded-md border p-4 mt-4 mb-8 w-5/12;
+        }
+    }
+
+    .sectiontitle {
+        @apply flex items-center justify-center;
+
+        & .-title {
+            @apply text-lg text-gray-700 font-semibold text-center tracking-wider my-8 py-4 border-y-2 border-gray-300 shadow-lg w-5/12;
+        }
+    }
+}

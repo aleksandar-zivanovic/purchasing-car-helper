@@ -16,10 +16,10 @@ class EngineType extends AbstractType
         $builder
             ->add('fuelType', ChoiceType::class, [
                 'choices' => [
-                    'Petrol' => 'petrol', 
-                    'Petrol LPG' => 'petrol lpg', 
-                    'Diesel' => 'diesel', 
-                    'Electric' => 'electric'
+                    'Petrol' => 'Petrol', 
+                    'Petrol LPG' => 'Petrol LPG', 
+                    'Diesel' => 'Diesel', 
+                    'Electric' => 'Electric'
                 ]
             ])
             ->add('engineDisplacement', NumberType::class, [

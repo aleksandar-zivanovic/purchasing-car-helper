@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,7 +23,15 @@ class CarType extends AbstractType
         $builder
             ->add('brand', TextType::class)
             ->add('model', TextType::class)
-            ->add('bodyType', TextType::class)
+            ->add('bodyType', ChoiceType::class, [
+                'choices' => [
+                    'Convertible' => 'Convertible', 
+                    'Hatchback' => 'Hatchback', 
+                    'Minivan' => 'Minivan', 
+                    'Sedan' => 'Sedan', 
+                    'SUV' => 'SUV', 
+                ]
+            ])
             ->add('registrationExpirationDate', DateType::class, [
                 'widget' => 'single_text',
             ])
@@ -33,14 +42,6 @@ class CarType extends AbstractType
             ->add('price', NumberType::class, [
                 'html5' => true,
             ])
-            // ->add('engine', EntityType::class, [
-            //     'class' => Engine::class,
-            //     'choice_label' => 'id',
-            // ])
-            // ->add('seller', EntityType::class, [
-            //     'class' => Seller::class,
-            //     'choice_label' => 'id',
-            // ])
             ->add('seller', SellerType::class)
             ->add('engine', EngineType::class)
             ->add('submit', SubmitType::class, ['label' => 'Add new car'])
