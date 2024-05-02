@@ -5,24 +5,50 @@ namespace App\Entity;
 use App\Repository\EngineRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EngineRepository::class)]
 class Engine
 {
+    public const ALLOWED_FUEL_TYPES = ['Petrol', 'Petrol LPG', 'Diesel', 'Electric'];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Choice(choices:Engine::ALLOWED_FUEL_TYPES)]
     #[ORM\Column(length: 20)]
     private ?string $fuelType = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 3,
+        max: 4,
+        minMessage: '{{ label }} must be at least {{ limit }} digits long',
+        maxMessage: '{{ label }} cannot be longer than {{ limit }} digits',
+    )]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $engineDisplacement = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 2,
+        max: 3,
+        minMessage: '{{ label }} must be at least {{ limit }} digits long',
+        maxMessage: '{{ label }} cannot be longer than {{ limit }} digits',
+    )]
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $powerKW = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 2,
+        max: 3,
+        minMessage: '{{ label }} must be at least {{ limit }} digits long',
+        maxMessage: '{{ label }} cannot be longer than {{ limit }} digits',
+    )]
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $powerHP = null;
 

@@ -22,15 +22,9 @@ class EngineType extends AbstractType
                     'Electric' => 'Electric'
                 ]
             ])
-            ->add('engineDisplacement', NumberType::class, [
-                'html5' => true,
-            ])
-            ->add('powerKW', NumberType::class, [
-                'html5' => true,
-            ])
-            ->add('powerHP', NumberType::class, [
-                'html5' => true,
-            ])
+            ->add('engineDisplacement', NumberType::class)
+            ->add('powerKW', NumberType::class)
+            ->add('powerHP', NumberType::class)
         ;
     }
 

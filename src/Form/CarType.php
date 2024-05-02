@@ -13,8 +13,10 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Valid;
 
 class CarType extends AbstractType
 {
@@ -30,20 +32,23 @@ class CarType extends AbstractType
                     'Minivan' => 'Minivan', 
                     'Sedan' => 'Sedan', 
                     'SUV' => 'SUV', 
-                ]
+                ],
             ])
             ->add('registrationExpirationDate', DateType::class, [
                 'widget' => 'single_text',
             ])
             ->add('description', TextareaType::class)
             ->add('image', TextType::class)
-            ->add('url', TextType::class)
+            ->add('url', UrlType::class)
             ->add('comment', TextareaType::class)
-            ->add('price', NumberType::class, [
-                'html5' => true,
-            ])
+            ->add('price', NumberType::class)
             ->add('seller', SellerType::class)
-            ->add('engine', EngineType::class)
+            // ->add('seller', SellerType::class, [
+            //     'constraints' => [new Valid()],
+            // ])
+            ->add('engine', EngineType::class, [
+                'constraints' => array(new Valid()),
+            ])
             ->add('submit', SubmitType::class, ['label' => 'Add new car'])
         ;
     }

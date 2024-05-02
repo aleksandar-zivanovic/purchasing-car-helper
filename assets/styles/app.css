@@ -61,16 +61,29 @@ html {
 /* fixed css */
 
 .form_wrapper {
+    @apply block text-center;
 
     > .formname {
         @apply text-xl text-center p-4 uppercase;
     }
 
-    .formblock {
-        @apply flex items-center justify-center drop-shadow-lg;
+    .formblock { /* This should be an element (by RSCSS) */
+        @apply flex flex-col drop-shadow-lg;
+
+        .noerror {
+            @apply flex w-full justify-center;
+        }
+
+        .error {
+            @apply flex items-center justify-center  mb-[1rem];
+
+            > .-errortext {
+                @apply w-5/12 bg-yellow-200 text-red-500 italic p-1;
+            }
+        }
 
         & .-label {
-            @apply align-text-top text-base text-gray-700 font-medium mr-1 w-1/6;
+            @apply align-text-top text-base text-left text-gray-700 font-medium mr-1 w-1/6;
         }
         
         & .-widget {

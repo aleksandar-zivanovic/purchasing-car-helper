@@ -5,46 +5,64 @@ namespace App\Entity;
 use App\Repository\CarRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CarRepository::class)]
 class Car
 {
+    public const ALLOWED_BRANDS = ['Alfa Romeo', 'Fiat', 'Peugeot', 'Renault',];
+    public const ALLOWED_BODY_TYPES = ['Convertible', 'Hatchback', 'Minivan', 'Sedan', 'SUV',]; 
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 25)]
+    #[Assert\NotBlank(message:"Car brand filed is mandatory!")]
+    #[Assert\Choice(choices:Car::ALLOWED_BRANDS, message:"{{ value }} is not valid brand!")]
     private ?string $brand = null;
 
     #[ORM\Column(length: 25)]
+    #[Assert\NotBlank(message:"Model filed is mandatory!")]
     private ?string $model = null;
 
     #[ORM\Column(length: 11)]
+    #[Assert\NotBlank(message:"Body type filed is mandatory!")]
+    #[Assert\Choice(choices:Car::ALLOWED_BODY_TYPES, message:"Allowed body types are: Convertible, Hatchback, Minivan, Sedan and SUV")]
     private ?string $bodyType = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Engine $engine = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $registrationExpirationDate = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    #[Assert\Url]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
+    #[Assert\NotBlank(message:"Must enter address of the Ad!")]
+    #[Assert\Url(relativeProtocol: true, message:"Ad addresss must start with https//: or http//: !")]
     #[ORM\Column(length: 255)]
     private ?string $url = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $comment = null;
 
+    #[Assert\NotBlank(message:"Must enter the car price!")]
+    #[Assert\GreaterThan(value:499, message:"Minimal price must be at least 500 euros!")]
     #[ORM\Column]
     private ?int $price = null;
 
+    
+    #[Assert\Type(type: Seller::class)]
+    #[Assert\Valid]
     #[ORM\ManyToOne(inversedBy: 'cars')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Seller $seller = null;

@@ -6,6 +6,7 @@ use App\Repository\SellerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SellerRepository::class)]
 class Seller
@@ -15,9 +16,21 @@ class Seller
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message:"{{ label }} filed is mandatory!")]
     #[ORM\Column(length: 25)]
     private ?string $location = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Regex(
+        pattern:"/^[0][0-9]*$/", 
+        message:"Phone number must be in format: 0631234567",
+        )]
+    #[Assert\Length(
+        min: 9,
+        max: 10,
+        minMessage: '{{ label }} must be at least {{ limit }} digits long',
+        maxMessage: '{{ label }} cannot be longer than {{ limit }} digits',
+    )]
     #[ORM\Column(length: 10)]
     private ?string $phone = null;
 
