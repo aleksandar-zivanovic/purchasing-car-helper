@@ -9,6 +9,11 @@
     {% set var = "" %}
 {% endif %}
 
+
+{% for message in app.flashes('new-car-success') %}
+    <div class="flash-successful">{{ message }}</div>
+{% endfor %}
+
 <div>
     {% for car in data %}
         <div class="car-info-wrapper">

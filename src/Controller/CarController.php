@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Car;
+use App\Entity\Seller;
 use App\Form\CarType;
 use App\Repository\CarRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +35,7 @@ class CarController extends AbstractController
     }
 
     #[Route('/new', name: 'app_new_car')]
-    public function new(Request $request): Response
+    public function new(Request $request, EntityManagerInterface $em): Response
     {
         $car = new Car();
         $form = $this->createForm(CarType::class, $car);
@@ -41,10 +43,17 @@ class CarController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $car = $form->getData();
-            dd($car);
-            // check if there is a seller with a phone number. If there is just add it, else make new seller
+            $phone = $car->getSeller()->getPhone();
+            $seller = $em->getRepository(Seller::class)->findOneBy(['phone' => $phone]);
 
-            // compare all data from drop-down menu with allowed values
+            if ($seller) {
+                $car->setSeller($seller);
+            }
+            
+            $em->persist($car);
+            $em->flush();
+            $this->addFlash('new-car-success', 'Congratulation! New car ad is saved successfully.');
+            return $this->redirectToRoute('app_cars_index');
         }
 
         return $this->render('car/new.html.twig', [

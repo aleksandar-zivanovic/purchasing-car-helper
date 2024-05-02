@@ -32,7 +32,7 @@ class Car
     #[Assert\Choice(choices:Car::ALLOWED_BODY_TYPES, message:"Allowed body types are: Convertible, Hatchback, Minivan, Sedan and SUV")]
     private ?string $bodyType = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade:['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Engine $engine = null;
 
@@ -63,7 +63,7 @@ class Car
     
     #[Assert\Type(type: Seller::class)]
     #[Assert\Valid]
-    #[ORM\ManyToOne(inversedBy: 'cars')]
+    #[ORM\ManyToOne(inversedBy: 'cars', cascade:['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Seller $seller = null;
 

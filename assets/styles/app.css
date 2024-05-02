@@ -6,6 +6,10 @@ html {
     background-color: rgb(245, 245, 245);
 }
 
+.flash-successful {
+    @apply bg-green-600 text-white text-center font-bold p-3;
+}
+
 .car-info-wrapper {
     margin: 0 2rem;
 
