@@ -33,13 +33,14 @@ class CarRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function singleCarWithAllDetails(): array
+    public function singleCarWithAllDetails($id): array
     {
         return $this->createQueryBuilder('c')
             ->select('c', 'e', 's', 'cm')
             ->leftJoin('c.engine', 'e')
             ->leftJoin('c.seller', 's')
             ->leftjoin('s.communications', 'cm')
+            ->where('c.id = ' . $id)
             ->getQuery()
             ->getResult();
     }

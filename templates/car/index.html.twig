@@ -81,6 +81,7 @@
                         <p>Contacted: YES / NO</p>
 
                         <div class="communications">
+                            <div class="add"></div>
                             {% for item in car.seller.communications %}
                                 <p class="comment-date">{{ item.date|date('Y-m-d h:i:s') }}</p>
                                 <p class="comments">{{ item.comment }}</p>
