@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'form/errors.html.twig' %}
+
+{% block title %}Add Communication with a Seller{% endblock %}
+
+{% block body %}
+
+	<div class="form_wrapper">
+
+		<div class="formname">Insert new communication details</div>
+
+		{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+		{{ form_errors(form) }}
+
+		<div class="sectiontitle">
+			<p class="-title">Communication details</p>
+		</div>
+
+		<div class="formblock">
+			<div class="noerror">
+				{{ form_label(form.date, 'Registration expiration date', {'label_attr': {'class': '-label'}}) }}
+				{{ form_widget(form.date, {'attr': {'class': '-widget'}}) }}
+			</div>
+			{{ form_errors(form.date) }}
+		</div>
+
+		<div class="formblock">
+			<div class="noerror">
+				{{ form_label(form.comment, 'Description', {'label_attr': {'class': '-label'}}) }}
+				{{ form_widget(form.comment, {'attr': {'class': '-widget'}}) }}
+			</div>
+			{{ form_errors(form.comment) }}
+		</div>
+
+		<div class="formblock">
+			<div class="noerror">
+			{{ form_widget(form.submit, {'attr': {'class': '-submit'}}) }}
+			</div>
+		</div>
+
+		{{ form_end(form) }}
+
+	</div>
+
+{% endblock %}

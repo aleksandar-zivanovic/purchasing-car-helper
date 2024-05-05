@@ -14,6 +14,10 @@
     <div class="flash-successful">{{ message }}</div>
 {% endfor %}
 
+{% for message in app.flashes('new-communication-success') %}
+    <div class="flash-successful">{{ message }}</div>
+{% endfor %}
+
 {% if var == "flex-none" %}
 <div class="flex mt-12">
     <a href="{{ path('app_cars_index', {'order': 'ASC'}) }}" class="ml-8 mr-4">
@@ -82,8 +86,11 @@
                         <p>Phone: {{ car.seller.phone }}</p>
                         <p>Contacted: YES / NO</p>
 
+                        <div class="buttonholder">
+                            <a class="addbutton" href="{{ path('app_communication_new', {'car': car.id}) }}">Add new communication</a>
+                        </div>
+
                         <div class="communications">
-                            <div class="add"></div>
                             {% for item in car.communication %}
                                 <p class="comment-date">{{ item.date|date('Y-m-d h:i:s') }}</p>
                                 <p class="comments">{{ item.comment }}</p>
