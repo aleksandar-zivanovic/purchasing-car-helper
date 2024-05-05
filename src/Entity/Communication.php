@@ -17,12 +17,12 @@ class Communication
     #[ORM\Column]
     private ?\DateTimeImmutable $date = null;
 
-    #[ORM\ManyToOne(inversedBy: 'communications')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Seller $seller = null;
-
     #[ORM\Column(type: Types::TEXT)]
     private ?string $comment = null;
+
+    #[ORM\ManyToOne(inversedBy: 'communication')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Car $car = null;
 
     public function getId(): ?int
     {
@@ -41,18 +41,6 @@ class Communication
         return $this;
     }
 
-    public function getSeller(): ?Seller
-    {
-        return $this->seller;
-    }
-
-    public function setSeller(?Seller $seller): static
-    {
-        $this->seller = $seller;
-
-        return $this;
-    }
-
     public function getComment(): ?string
     {
         return $this->comment;
@@ -61,6 +49,18 @@ class Communication
     public function setComment(string $comment): static
     {
         $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function getCar(): ?Car
+    {
+        return $this->car;
+    }
+
+    public function setCar(?Car $car): static
+    {
+        $this->car = $car;
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CarRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -66,6 +68,17 @@ class Car
     #[ORM\ManyToOne(inversedBy: 'cars', cascade:['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Seller $seller = null;
+
+    /**
+     * @var Collection<int, Communication>
+     */
+    #[ORM\OneToMany(targetEntity: Communication::class, mappedBy: 'car', orphanRemoval: true)]
+    private Collection $communication;
+
+    public function __construct()
+    {
+        $this->communication = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -200,6 +213,36 @@ class Car
     public function setSeller(?Seller $seller): static
     {
         $this->seller = $seller;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Communication>
+     */
+    public function getCommunication(): Collection
+    {
+        return $this->communication;
+    }
+
+    public function addCommunication(Communication $communication): static
+    {
+        if (!$this->communication->contains($communication)) {
+            $this->communication->add($communication);
+            $communication->setCar($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommunication(Communication $communication): static
+    {
+        if ($this->communication->removeElement($communication)) {
+            // set the owning side to null (unless already changed)
+            if ($communication->getCar() === $this) {
+                $communication->setCar(null);
+            }
+        }
 
         return $this;
     }

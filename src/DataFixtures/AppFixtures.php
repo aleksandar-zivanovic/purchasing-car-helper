@@ -38,13 +38,13 @@ class AppFixtures extends Fixture
         $communication1 = new Communication();
         $communicationDate1 = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
         $communication1->setDate($communicationDate1);
-        $communication1->setSeller($seller);
+        $communication1->setCar($car);
         $communication1->setComment("Ovo je lazni komentar koji sam dodao iz AppFixtures. On treba da prestavlja fejkovanu komunikacjiu sa prodavcem. Ovo je polje u koje unosite ono sto zelite u vezi komunikacije sa prodavcem konkretnog auta.");
 
         $communication2 = new Communication();
         $communicationDate2 = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
         $communication2->setDate($communicationDate2);
-        $communication2->setSeller($seller);
+        $communication2->setCar($car);
         $communication2->setComment("Ovo je DRUGI lazni komentar koji sam dodao iz AppFixtures");
         
         $manager->persist($communication1);

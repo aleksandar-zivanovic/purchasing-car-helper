@@ -35,7 +35,7 @@ class CarController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_new_car')]
+    #[Route('/new', name: 'app_new_car', priority: 2)]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $car = new Car();

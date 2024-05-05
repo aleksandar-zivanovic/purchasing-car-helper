@@ -27,7 +27,7 @@ class CarRepository extends ServiceEntityRepository
             ->select('c', 'e', 's', 'cm')
             ->leftJoin('c.engine', 'e')
             ->leftJoin('c.seller', 's')
-            ->leftjoin('s.communications', 'cm')
+            ->leftjoin('c.communication', 'cm')
             ->addOrderBy('c.id', $order)
             ->getQuery()
             ->getResult();
@@ -39,7 +39,7 @@ class CarRepository extends ServiceEntityRepository
             ->select('c', 'e', 's', 'cm')
             ->leftJoin('c.engine', 'e')
             ->leftJoin('c.seller', 's')
-            ->leftjoin('s.communications', 'cm')
+            ->leftjoin('c.communication', 'cm')
             ->where('c.id = ' . $id)
             ->getQuery()
             ->getResult();
