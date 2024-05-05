@@ -67,7 +67,7 @@
                         <p><strong>General Information</strong></p>
                         <p>Registered till: {{ car.registrationExpirationDate|date("m/Y") }}</p>
                         <p>Description: {{ car.description }}</p>
-                        <p>URL: <a href="{{ car.url }}" target="_blank"><u>Click here to visit the add</u></a></p>
+                        <p>URL: <a href="{{ car.url }}" target="_blank"><u class='-link'>Click here to visit the add</u></a></p>
                         {% if car.comment %}
                             <p>Comment: {{ car.comment }}</p>
                         {% endif %}

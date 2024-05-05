@@ -23,6 +23,10 @@ html {
 
     .information {
         margin-bottom: 1.5rem;
+
+        .-link {
+            @apply bg-sky-200 px-1;
+        }
     }
 
     > .moreinfo {
