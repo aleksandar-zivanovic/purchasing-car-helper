@@ -14,10 +14,11 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CarController extends AbstractController
 {
-    #[Route('/', name: 'app_cars_index')]
-    public function index(CarRepository $carRepository): Response
+    #[Route('/{order}', name: 'app_cars_index')]
+    public function index(CarRepository $carRepository, string $order = 'DESC'): Response
     {
-        $allCars = $carRepository->allCarsWithAllDetails();
+        $order = $order == "ASC" ? "ASC" : "DESC";
+        $allCars = $carRepository->allCarsWithAllDetails($order);
 
         return $this->render('car/index.html.twig', [
             'data' => $allCars,
