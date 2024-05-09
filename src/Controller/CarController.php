@@ -61,4 +61,10 @@ class CarController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/cars', name: 'app_cars_by_model', priority: 3)]
+    public function carsByModel():  Response
+    {
+        return new Response('app_cars_by_model stranica');
+    }
 }

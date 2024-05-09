@@ -38,12 +38,12 @@
     {% for car in data %}
         <div class="car-info-wrapper">
             {% if var == "flex-none" %}
-                <a href="{{ path('app_show_car', {id: car.id}) }}" target='_blank'>
+                <a href="{{ path('app_show_car', {id: car.id}) }}">
             {% endif %}
                 <h2 class="car-title text-2xl font-bold underline">
                     {{ car.brand }}
                     {{ car.model }}
-                    {{ (car.engine.engineDisplacement / 1000)|format_number({rounding_mode: 'floor', fraction_digit: 1}) }}
+                    {{ (car.engine.engineDisplacement / 1000)|format_number({rounding_mode: 'ceiling', fraction_digit: 1}) }}
                     {{ car.engine.fuelType|slice(0, 1) }} - {{ car.price }} {{ 'EUR'|currency_symbol }}
                 </h2>
             {% if var == "flex-none" %}
