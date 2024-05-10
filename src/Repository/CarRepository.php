@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Car;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Query\Parameter;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -44,6 +46,36 @@ class CarRepository extends ServiceEntityRepository
             ->orderBy('cm.id', 'DESC')
             ->getQuery()
             ->getResult();
+    }
+
+    public function allCarsByModel(
+        string $brand, 
+        string $model, 
+        int $engine, 
+        string $fuel, 
+        string $order
+    ): array
+    {
+        $fuel = $fuel == 'D' ? 'Diesel' : 'Petrol';
+
+        return $this->createQueryBuilder('c')
+                    ->select('c', 'e', 's', 'cm')
+                    ->leftJoin('c.engine', 'e')
+                    ->leftJoin('c.seller', 's')
+                    ->leftJoin('c.communication', 'cm')
+                    ->where('c.brand =  :brand')
+                    ->andWhere('c.model =  :model')
+                    ->andWhere('e.engineDisplacement =  :engine')
+                    ->andWhere('e.fuelType =  :fuel')
+                    ->setParameters(new ArrayCollection([
+                        new Parameter(':brand', $brand), 
+                        new Parameter(':model', $model), 
+                        new Parameter(':engine', $engine), 
+                        new Parameter(':fuel', $fuel)
+                    ]))
+                    ->addOrderBy('c.id', $order)
+                    ->getQuery()
+                    ->getResult();
     }
 
     //    /**

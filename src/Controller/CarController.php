@@ -35,6 +35,24 @@ class CarController extends AbstractController
         ]);
     }
 
+    #[Route('/cars/{brand}-{model}-{engine}-{fuel}-{order}', name: 'app_cars_by_model', priority: 3)]
+    public function carsByModel(
+        CarRepository $carRepository, 
+        string $brand, 
+        string $model, 
+        int $engine, 
+        string $fuel, 
+        ?string $order = NULL, 
+    ):  Response
+    {
+        $order = $order == "DESC" ? "DESC" : "ASC";
+        
+        $cars = $carRepository->allCarsByModel($brand, $model, $engine, $fuel, $order);
+        return $this->render('car/index.html.twig', [
+            'data' => $cars,
+        ]);
+    }
+
     #[Route('/new', name: 'app_new_car', priority: 2)]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
@@ -60,11 +78,5 @@ class CarController extends AbstractController
         return $this->render('car/new.html.twig', [
             'form' => $form,
         ]);
-    }
-
-    #[Route('/cars', name: 'app_cars_by_model', priority: 3)]
-    public function carsByModel():  Response
-    {
-        return new Response('app_cars_by_model stranica');
     }
 }

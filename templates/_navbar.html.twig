@@ -7,7 +7,8 @@
       {% set comparationArray = {
           'brand': car.brand, 
           'model': car.model,
-          'engineDisplacement': (car.engine.engineDisplacement / 1000)|format_number({rounding_mode: 'ceiling', fraction_digit: 1}),
+          'engine': (car.engine.engineDisplacement / 1000)|format_number({rounding_mode: 'ceiling', fraction_digit: 1}),
+          'engineDisplacement': car.engine.engineDisplacement, 
           'fuel':  car.engine.fuelType|slice(0, 1)
       } %}
       
@@ -117,9 +118,9 @@
               <li>
                 <a
                   class="block w-full whitespace-nowrap bg-white px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-zinc-200/60 focus:bg-zinc-200/60 focus:outline-none active:bg-zinc-200/60 active:no-underline dark:bg-surface-dark dark:text-white dark:hover:bg-neutral-800/25 dark:focus:bg-neutral-800/25 dark:active:bg-neutral-800/25"
-                  href="/cars?brand={{singleCar.brand}}&model={{ singleCar.model }}&engineDisplacement={{ singleCar.engineDisplacement }}&fuel={{ singleCar.fuel }}"
+                  href="/cars/{{singleCar.brand}}-{{ singleCar.model }}-{{ singleCar.engineDisplacement }}-{{ singleCar.fuel }}"
                   data-twe-dropdown-item-ref
-                  >{{ singleCar.brand }} {{ singleCar.model }} {{ singleCar.engineDisplacement }} {{ singleCar.fuel }}</a
+                  >{{ singleCar.brand }} {{ singleCar.model }} {{ singleCar.engine }} {{ singleCar.fuel }}</a
                 >
               </li>
             {% endfor %}
