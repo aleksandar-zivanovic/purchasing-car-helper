@@ -40,7 +40,7 @@
             {% if var == "flex-none" %}
                 <a href="{{ path('app_show_car', {id: car.id}) }}">
             {% endif %}
-                <h2 class="car-title text-2xl font-bold underline">
+                <h2 class="car-title text-2xl font-bold underline inline">
                     {{ car.brand }}
                     {{ car.model }}
                     {{ (car.engine.engineDisplacement / 1000)|format_number({rounding_mode: 'ceiling', fraction_digit: 1}) }}
