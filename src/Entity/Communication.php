@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CommunicationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CommunicationRepository::class)]
 class Communication
@@ -14,9 +15,11 @@ class Communication
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column]
     private ?\DateTimeImmutable $date = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $comment = null;
 
@@ -34,7 +37,7 @@ class Communication
         return $this->date;
     }
 
-    public function setDate(\DateTimeImmutable $date): static
+    public function setDate(?\DateTimeImmutable $date): static
     {
         $this->date = $date;
 
