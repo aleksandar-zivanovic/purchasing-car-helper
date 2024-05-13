@@ -23,16 +23,18 @@ class CarRepository extends ServiceEntityRepository
         parent::__construct($registry, Car::class);
     }
 
-    public function allCarsWithAllDetails(string $order = 'DESC'): array
+    public function allCarsWithAllDetails(string $order = 'DESC', bool $communication = false): array
     {
-        return $this->createQueryBuilder('c')
+        $qb =  $this->createQueryBuilder('c')
             ->select('c', 'e', 's', 'cm')
             ->leftJoin('c.engine', 'e')
             ->leftJoin('c.seller', 's')
             ->leftjoin('c.communication', 'cm')
-            ->addOrderBy('c.id', $order)
-            ->getQuery()
-            ->getResult();
+            ->addOrderBy('c.id', $order);
+
+            if($communication) $qb->andWhere('cm.id IS NOT NULL');
+
+        return $qb->getQuery()->getResult();
     }
 
     public function singleCarWithAllDetails($id): array

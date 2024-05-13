@@ -3,7 +3,11 @@
 {% block title %}Saved cars listing{% endblock %}
 
 {% block body %}
-{% if app.current_route == "app_cars_index" or app.current_route == "app_cars_by_model" %}
+
+{% if app.current_route == "app_cars_index" or 
+    app.current_route == "app_cars_by_model" or 
+    app.current_route == "app_cars_with_communication"
+%}
     {% set var = "flex-none" %}  {# for index() and carsByModel() methods #}
 {% else %}
     {% set var = "" %}  {# for show() method #}

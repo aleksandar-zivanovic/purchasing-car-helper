@@ -79,4 +79,14 @@ class CarController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/cars-by-communication/{order}', name:'app_cars_with_communication', priority:4)]
+    public function carsWithCommunication(CarRepository $carRepository, string $order = 'DESC'): Response 
+    {
+        $allCars = $carRepository->allCarsWithAllDetails($order, true);
+        
+        return $this->render('car/index.html.twig', [
+            'data' => $allCars,
+        ]);
+    }
 }

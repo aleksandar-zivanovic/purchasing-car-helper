@@ -1,5 +1,6 @@
 <!-- Main navigation container -->
 
+<! -- Added Car Models button logic -->
 {% if data is defined and data is not null %}
   {% set uniqueCars = [] %}
 
@@ -18,6 +19,15 @@
 
   {% endfor %}
 
+{% endif %}
+<! -- end of Added Car Models button logic -->
+
+<!-- Allowed routes -->
+{% set allowedRoutes = ['app_cars_index', 'app_cars_by_model', 'app_cars_with_communication'] %}
+{% if app.current_route in allowedRoutes %}
+  {% set isAllowedRoute = true %}
+{% else %}
+  {% set isAllowedRoute = false %}
 {% endif %}
 
 <nav
@@ -69,16 +79,26 @@
             >Home</a
           >
         </li>
-        {% if app.request.get('_route') == 'app_cars_index' %}
+        {% if isAllowedRoute %}
         <!-- Link -->
         <li
           class="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0"
           data-twe-nav-item-ref>
           <a
             class="p-0 text-black/60 transition duration-200 hover:text-black/80 hover:ease-in-out focus:text-black/80 active:text-black/80 motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2"
-            href="{{ path('app_new_car', { uniqueCars: uniqueCars }) }}"
+            href="{{ path('app_new_car') }}"
             data-twe-nav-link-ref
             >Add new car ad</a
+          >
+        </li>
+        <li
+          class="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0"
+          data-twe-nav-item-ref>
+          <a
+            class="p-0 text-black/60 transition duration-200 hover:text-black/80 hover:ease-in-out focus:text-black/80 active:text-black/80 motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2"
+            href="{{ path('app_cars_with_communication') }}"
+            data-twe-nav-link-ref
+            >Cars with Communications</a
           >
         </li>
         <!-- Dropdown link -->
