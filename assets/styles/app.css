@@ -68,6 +68,18 @@ html {
 
 /* fixed css */
 
+.order-by-buttons {
+    @apply flex justify-end mt-5;
+
+    > .ascending {
+        @apply mr-2 p-2 hover:bg-sky-200 hover:rounded-3xl box-content;
+    }
+
+    > .descending {
+        @apply w-6 h-6 p-2 mr-2 hover:bg-sky-200 hover:rounded-3xl box-content;
+    }
+}
+
 .form_wrapper {
     @apply block text-center;
 
