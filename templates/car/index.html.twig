@@ -59,7 +59,7 @@
                     <img src="{{ car.image }}" alt="{{ car.brand }} {{ car.model }} {{ car.bodyType }} {{ car.engine.powerKW }} KW / {{ car.engine.powerHP }} HP" width="300" height="400">
                 </div>
 
-                <div {% if var == "flex-none" %}class="flex-none ml-5"{% endif %}>
+                <div class="ml-5">
                     <div class="information">
                         <p><strong>Model Information</strong></p>
                         <p>Brand: {{ car.brand }}</p>
