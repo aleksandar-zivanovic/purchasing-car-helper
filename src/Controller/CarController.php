@@ -68,6 +68,8 @@ class CarController extends AbstractController
             if ($seller) {
                 $car->setSeller($seller);
             }
+
+            $car->setUser = $this->getUser();
             
             $em->persist($car);
             $em->flush();

@@ -75,6 +75,10 @@ class Car
     #[ORM\OneToMany(targetEntity: Communication::class, mappedBy: 'car', orphanRemoval: true)]
     private Collection $communication;
 
+    #[ORM\ManyToOne(inversedBy: 'car')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->communication = new ArrayCollection();
@@ -243,6 +247,18 @@ class Car
                 $communication->setCar(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

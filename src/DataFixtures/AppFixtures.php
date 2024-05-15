@@ -6,6 +6,7 @@ use App\Entity\Car;
 use App\Entity\Communication;
 use App\Entity\Engine;
 use App\Entity\Seller;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -13,6 +14,13 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
+        $user = new User();
+        $user->setEmail('email@example.com');
+        $user->setFirstName('John');
+        $user->setLastName('Doe');
+        $user->setPassword('12345');
+        $user->setRoles(["ROLE_USER"]);
+
         $car = new Car();
         $car->setBrand('Peugeot');
         $car->setModel('307');
@@ -34,6 +42,7 @@ class AppFixtures extends Fixture
         $seller->setPhone("0691997660");
         $car->setSeller($seller);
         $car->setPrice(1600);
+        $car->setUser($user);
 
         $communication1 = new Communication();
         $communicationDate1 = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
@@ -51,6 +60,7 @@ class AppFixtures extends Fixture
         $manager->persist($communication2);
         $manager->persist($engine);
         $manager->persist($seller);
+        $manager->persist($user);
         $manager->persist($car);
 
         $manager->flush();
