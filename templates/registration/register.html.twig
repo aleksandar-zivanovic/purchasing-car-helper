@@ -1,24 +1,69 @@
 {% extends 'base.html.twig' %}
+{% form_theme registrationForm 'form/errors.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Add New Car{% endblock %}
 
 {% block body %}
     {% for flash_error in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
-    <h1>Register</h1>
-    {{ form_errors(registrationForm) }}
+	<div class="form_wrapper">
 
-    {{ form_start(registrationForm, {'attr': {'novalidate': 'novalidate'}}) }}
-        {{ form_row(registrationForm.first_name) }}
-        {{ form_row(registrationForm.last_name) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+		<div class="formname">Insert ad's information</div>
 
-        <button type="submit" class="btn">Register</button>
+		{{ form_start(registrationForm, {'attr': {'novalidate': 'novalidate'}}) }}
+
+		{{ form_errors(registrationForm) }}
+
+        <div class="sectiontitle">
+			<p class="-title">User registration form</p>
+		</div>
+
+		<div class="formblock">
+			<div class="noerror">
+				{{ form_label(registrationForm.first_name, 'Enter your first name:', {'label_attr': {'class': '-label'}}) }}
+				{{ form_widget(registrationForm.first_name, {'attr': {'class': '-widget'}}) }}
+			</div>
+			{{ form_errors(registrationForm.first_name) }}
+		</div>
+
+		<div class="formblock">
+			<div class="noerror">
+				{{ form_label(registrationForm.last_name, 'Enter your last name:', {'label_attr': {'class': '-label'}}) }}
+				{{ form_widget(registrationForm.last_name, {'attr': {'class': '-widget'}}) }}
+			</div>
+			{{ form_errors(registrationForm.last_name) }}
+		</div>
+
+		<div class="formblock">
+			<div class="noerror">
+				{{ form_label(registrationForm.email, 'Enter your email address:', {'label_attr': {'class': '-label'}}) }}
+				{{ form_widget(registrationForm.email, {'attr': {'class': '-widget'}}) }}
+			</div>
+			{{ form_errors(registrationForm.email) }}
+		</div>
+
+		<div class="formblock">
+			<div class="noerror">
+				{{ form_label(registrationForm.plainPassword, 'Enter password:', {'label_attr': {'class': '-label'}}) }}
+				{{ form_widget(registrationForm.plainPassword, {'attr': {'class': '-widget'}}) }}
+			</div>
+			{{ form_errors(registrationForm.plainPassword) }}
+		</div>
+
+		<div class="formblock">
+			<div class="noerror">
+				{{ form_label(registrationForm.agreeTerms, 'I have read and agreed to the terms and conditions:', {'label_attr': {'class': '-label'}}) }}
+				{{ form_widget(registrationForm.agreeTerms, {'attr': {'class': '-widget'}}) }}
+			</div>
+			{{ form_errors(registrationForm.agreeTerms) }}
+		</div>
+
+        <div class="formblock">
+			<div class="noerror">
+			{{ form_widget(registrationForm.submit, {'attr': {'class': '-submit'}}) }}
+			</div>
+		</div>
     {{ form_end(registrationForm) }}
 {% endblock %}
