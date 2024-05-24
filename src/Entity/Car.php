@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: CarRepository::class)]
 class Car
 {
-    public const ALLOWED_BRANDS = ['Alfa Romeo', 'Fiat', 'Peugeot', 'Renault',];
+    public const ALLOWED_BRANDS = ['Alfa Romeo', 'Fiat', 'Ford', 'Peugeot', 'Renault',];
     public const ALLOWED_BODY_TYPES = ['Convertible', 'Hatchback', 'Minivan', 'Sedan', 'SUV',]; 
 
     #[ORM\Id]

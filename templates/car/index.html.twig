@@ -14,12 +14,16 @@
 {% endif %}
 
 
-{% for message in app.flashes('new-car-success') %}
+{% for message in app.flashes('success') %}
     <div class="flash-successful">{{ message }}</div>
 {% endfor %}
 
 {% for message in app.flashes('new-communication-success') %}
     <div class="flash-successful">{{ message }}</div>
+{% endfor %}
+
+{% for message in app.flashes('registration-info') %}
+    <div class="flash-info">{{ message }}</div>
 {% endfor %}
 
 {% if var == "flex-none" %}

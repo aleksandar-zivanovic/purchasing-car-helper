@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class CarController extends AbstractController
 {
@@ -54,6 +55,7 @@ class CarController extends AbstractController
     }
 
     #[Route('/new', name: 'app_new_car', priority: 2)]
+    #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $car = new Car();
@@ -65,15 +67,21 @@ class CarController extends AbstractController
             $phone = $car->getSeller()->getPhone();
             $seller = $em->getRepository(Seller::class)->findOneBy(['phone' => $phone]);
 
-            if ($seller) {
-                $car->setSeller($seller);
+            if (!$seller) {
+                $location = $car->getSeller()->getLocation();
+                $seller = new Seller();
+                $seller->setlocation($location);
+                $seller->setPhone($phone);
+                $em->persist($seller);
+                $em->flush();  
             }
 
-            $car->setUser = $this->getUser();
+            $car->setSeller($seller);
+            $car->setUser($this->getUser());
             
             $em->persist($car);
             $em->flush();
-            $this->addFlash('new-car-success', 'Congratulation! New car ad is saved successfully.');
+            $this->addFlash('success', 'Congratulation! New car ad is saved successfully.');
             return $this->redirectToRoute('app_cars_index');
         }
 
