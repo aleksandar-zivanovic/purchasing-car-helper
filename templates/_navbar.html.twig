@@ -1,6 +1,6 @@
 <!-- Main navigation container -->
 
-<! -- Added Car Models button logic -->
+<!-- Added Car Models button logic -->
 {% if data is defined and data is not null %}
   {% set uniqueCars = [] %}
 
@@ -20,7 +20,7 @@
   {% endfor %}
 
 {% endif %}
-<! -- end of Added Car Models button logic -->
+<!-- end of Added Car Models button logic -->
 
 <!-- Allowed routes -->
 {% set allowedRoutes = ['app_cars_index', 'app_cars_by_model', 'app_cars_with_communication'] %}
@@ -68,39 +68,12 @@
         class="list-style-none me-auto flex flex-col ps-0 lg:mt-1 lg:flex-row"
         data-twe-navbar-nav-ref>
         <!-- Home link -->
-        <li
-          class="my-4 ps-2 lg:my-0 lg:pe-1 lg:ps-2"
-          data-twe-nav-item-ref>
-          <a
-            class="text-black dark:text-white"
-            aria-current="page"
-            href={{ path('app_cars_index') }}
-            data-twe-nav-link-ref
-            >Home</a
-          >
-        </li>
+        {{ include('/shared/_nav_button.html.twig', {'path': path('app_cars_index'), 'name': 'Home'}) }}
         {% if isAllowedRoute %}
-        <!-- Link -->
-        <li
-          class="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0"
-          data-twe-nav-item-ref>
-          <a
-            class="p-0 text-black/60 transition duration-200 hover:text-black/80 hover:ease-in-out focus:text-black/80 active:text-black/80 motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2"
-            href="{{ path('app_new_car') }}"
-            data-twe-nav-link-ref
-            >Add new car ad</a
-          >
-        </li>
-        <li
-          class="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0"
-          data-twe-nav-item-ref>
-          <a
-            class="p-0 text-black/60 transition duration-200 hover:text-black/80 hover:ease-in-out focus:text-black/80 active:text-black/80 motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2"
-            href="{{ path('app_cars_with_communication') }}"
-            data-twe-nav-link-ref
-            >Cars with Communications</a
-          >
-        </li>
+        <!-- Add new car ad Button-->
+        {{ include('/shared/_nav_button.html.twig', {'path': path('app_new_car'), 'name': 'Add new car ad'}) }}
+        <!-- Cars with Communications Button -->
+        {{ include('/shared/_nav_button.html.twig', {'path': path('app_cars_with_communication'), 'name': 'Cars with Communications'}) }}
         <!-- Dropdown link -->
         <li
           class="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0"
@@ -138,7 +111,7 @@
               <li>
                 <a
                   class="block w-full whitespace-nowrap bg-white px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-zinc-200/60 focus:bg-zinc-200/60 focus:outline-none active:bg-zinc-200/60 active:no-underline dark:bg-surface-dark dark:text-white dark:hover:bg-neutral-800/25 dark:focus:bg-neutral-800/25 dark:active:bg-neutral-800/25"
-                  href="/cars/{{singleCar.brand}}-{{ singleCar.model }}-{{ singleCar.engineDisplacement }}-{{ singleCar.fuel }}"
+                  href="/cars/{{ singleCar.brand }}-{{ singleCar.model }}-{{ singleCar.engineDisplacement }}-{{ singleCar.fuel }}"
                   data-twe-dropdown-item-ref
                   >{{ singleCar.brand }} {{ singleCar.model }} {{ singleCar.engine }} {{ singleCar.fuel }}</a
                 >
@@ -148,47 +121,16 @@
           </ul>
         </li>
         {% endif %}
+
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <!-- Logout Button -->
+        {{ include('/shared/_nav_button.html.twig', {'path': path('app_logout'), 'name': 'Logout'}) }}
+        {% else %}
         <!-- Login Button -->
-        <li
-          class="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0"
-          data-twe-nav-item-ref>
-          <a
-            class="p-0 text-black/60 transition duration-200 hover:text-black/80 hover:ease-in-out focus:text-black/80 active:text-black/80 motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2"
-            href="{{ path('app_login') }}"
-            data-twe-nav-link-ref
-            >Login</a
-          >
-        </li>
+        {{ include('/shared/_nav_button.html.twig', {'path': path('app_login'), 'name': 'Login'}) }}
         <!-- Registration Button -->
-        <li
-          class="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0"
-          data-twe-nav-item-ref>
-          <a
-            class="p-0 text-black/60 transition duration-200 hover:text-black/80 hover:ease-in-out focus:text-black/80 active:text-black/80 motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2"
-            href="{{ path('app_register') }}"
-            data-twe-nav-link-ref
-            >Register</a
-          >
-        </li>
-                <li
-          class="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0"
-          data-twe-nav-item-ref>
-          <a
-            class="p-0 text-black/60 transition duration-200 hover:text-black/80 hover:ease-in-out focus:text-black/80 active:text-black/80 motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2"
-            href="{{ path('app_logout') }}"
-            data-twe-nav-link-ref
-            >Logout</a
-          >
-        </li>
-        <!-- Disabled link -->
-        {# <li
-          class="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0"
-          data-twe-nav-link-ref>
-          <a
-            class="pointer-events-none text-black/30 dark:text-white/30 lg:px-2"
-            >Disabled</a
-          >
-        </li> #}
+        {{ include('/shared/_nav_button.html.twig', {'path': path('app_register'), 'name': 'Register'}) }}
+        {% endif %}
       </ul>
     </div>
   </div>
