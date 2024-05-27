@@ -76,11 +76,11 @@ html {
     @apply flex justify-end mt-5;
 
     > .ascending {
-        @apply mr-2 p-2 hover:bg-sky-200 hover:rounded-3xl box-content;
+        @apply mr-2 p-2 bg-fuchsia-300 hover:bg-sky-200 rounded-3xl box-content;
     }
 
     > .descending {
-        @apply w-6 h-6 p-2 mr-2 hover:bg-sky-200 hover:rounded-3xl box-content;
+        @apply w-6 h-6 p-2 mr-2 bg-fuchsia-300 hover:bg-sky-200 rounded-3xl box-content;
     }
 }
 
