@@ -134,5 +134,13 @@ html {
     .addbutton {
         @apply bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-full mt-4;
     }
+}
 
+.user-info-wrapper {
+    @apply flex grow justify-end;
+    
+
+    > .userinfo {
+        @apply bg-gray-200 lg:mr-4 lg:py-1 lg:px-2 hover:bg-sky-200;
+    }
 }

@@ -55,7 +55,7 @@ class CarController extends AbstractController
     }
 
     #[Route('/new', name: 'app_new_car', priority: 2)]
-    #[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_USER')]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $car = new Car();
