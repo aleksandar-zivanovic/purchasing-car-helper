@@ -26,6 +26,14 @@
     <div class="flash-info">{{ message }}</div>
 {% endfor %}
 
+{% for message in app.flashes('car-delete-successful') %}
+    <div class="flash-successful">{{ message }}</div>
+{% endfor %}
+
+{% for message in app.flashes('car-delete-failed') %}
+    <div class="flash-error">{{ message }}</div>
+{% endfor %}
+
 {% if data is not empty %}
     {% if var == "flex-none" %}
     <div class="right-sided-buttons">

@@ -101,6 +101,33 @@ class CarController extends AbstractController
         ]);
     }
 
+    #[Route('/delete/{id}', name:'app_delete_car', requirements:['id' => '\d+'])]
+    public function delete($id, EntityManagerInterface $em, CarRepository $carRepository): Response
+    {
+        $car = $carRepository->find($id);
+        $userId = $this->getUser()->getId();
+        
+        if ($car != null && $userId ===  $car->getUser()->getId()) {
+            $em->remove($car);
+            $em->flush();
+            $this->addFlash(
+                type:'car-delete-successful', 
+                message: 'Ad is removed from your list!');
+        } elseif ($car == null) {
+            $this->addFlash(
+                type:'car-delete-failed', 
+                message: 'Chosen ad doesn\'t exist!',
+            );
+        } elseif ($userId !== $car->getUser()->getId()){
+            $this->addFlash(
+                type:'car-delete-failed', 
+                message: 'This is not your ad. You dont have permission to delete it!',
+            );
+        }
+        
+        return $this->redirectToRoute('app_cars_index');
+    }
+
     #[Route('/cars-by-communication/{order}', name:'app_cars_with_communication', priority:4)]
     public function carsWithCommunication(CarRepository $carRepository, string $order = 'DESC'): Response 
     {
