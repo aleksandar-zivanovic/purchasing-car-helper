@@ -19,7 +19,18 @@ class CarController extends AbstractController
     public function index(CarRepository $carRepository, string $order = 'DESC'): Response
     {
         $order = $order == "ASC" ? "ASC" : "DESC";
-        $allCars = $carRepository->allCarsWithAllDetails($order);
+        if(!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+        
+        if($this->isGranted('ROLE_USER') && !$this->isGranted('ROLE_ADMIN')) {
+            $userID = $this->getUser()->getID();
+            $allCars = $carRepository->allUserCarsWithAllDetails(order:$order, userID:$userID);
+        }
+
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $allCars = $carRepository->allCarsWithAllDetails($order);
+        }
 
         return $this->render('car/index.html.twig', [
             'data' => $allCars,

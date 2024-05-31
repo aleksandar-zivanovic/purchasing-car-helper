@@ -37,6 +37,23 @@ class CarRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function allUserCarsWithAllDetails(string $order = 'DESC', int $userID, bool $communication = false): array
+    {
+        $qb =  $this->createQueryBuilder('c')
+            ->select('c', 'e', 's', 'cm')
+            ->leftJoin('c.engine', 'e')
+            ->leftJoin('c.seller', 's')
+            ->leftjoin('c.communication', 'cm')
+            ->leftJoin('c.user', 'u')
+            ->where('u.id = :id')
+            ->setParameter('id', $userID)   
+            ->addOrderBy('c.id', $order);
+
+            if($communication) $qb->andWhere('cm.id IS NOT NULL');
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function singleCarWithAllDetails($id): array
     {
         return $this->createQueryBuilder('c')

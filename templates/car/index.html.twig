@@ -26,96 +26,102 @@
     <div class="flash-info">{{ message }}</div>
 {% endfor %}
 
-{% if var == "flex-none" %}
-<div class="order-by-buttons">
-    <a class="ascending" href="{{ path(app.current_route, app.request.attributes.get('_route_params')|merge({'order': 'ASC'})) }}">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" />
-        </svg>
-    </a>
+{% if data is not empty %}
+    {% if var == "flex-none" %}
+    <div class="order-by-buttons">
+        <a class="ascending" href="{{ path(app.current_route, app.request.attributes.get('_route_params')|merge({'order': 'ASC'})) }}">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" />
+            </svg>
+        </a>
 
-    <a class="descending" href="{{ path(app.current_route, app.request.attributes.get('_route_params')|merge({'order': 'DESC'})) }}">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
-        </svg>
-    </a>
-</div>
+        <a class="descending" href="{{ path(app.current_route, app.request.attributes.get('_route_params')|merge({'order': 'DESC'})) }}">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
+            </svg>
+        </a>
+    </div>
+    {% endif %}
 {% endif %}
 
 <div>
-    {% for car in data %}
-        <div class="car-info-wrapper">
-            {% if var == "flex-none" %}
-                <a href="{{ path('app_show_car', {id: car.id}) }}">
-            {% endif %}
-                <h2 class="car-title">
-                    {{ car.brand }}
-                    {{ car.model }}
-                    {{ (car.engine.engineDisplacement / 1000)|format_number({rounding_mode: 'ceiling', fraction_digit: 1}) }}
-                    {{ car.engine.fuelType|slice(0, 1) }} - {{ car.price }} {{ 'EUR'|currency_symbol }}
-                </h2>
-            {% if var == "flex-none" %}
-                </a>
-            {% endif %}
+    {% if data is empty %}
+        <h1 class="flash-info">You haven't listed any car, yet!</h1>
+    {% else %}
+        {% for car in data %}
+            <div class="car-info-wrapper">
+                {% if var == "flex-none" %}
+                    <a href="{{ path('app_show_car', {id: car.id}) }}">
+                {% endif %}
+                    <h2 class="car-title">
+                        {{ car.brand }}
+                        {{ car.model }}
+                        {{ (car.engine.engineDisplacement / 1000)|format_number({rounding_mode: 'ceiling', fraction_digit: 1}) }}
+                        {{ car.engine.fuelType|slice(0, 1) }} - {{ car.price }} {{ 'EUR'|currency_symbol }}
+                    </h2>
+                {% if var == "flex-none" %}
+                    </a>
+                {% endif %}
 
-            <div {% if var == "flex-none"%}class="flex"{% endif %}>
-                <div class="carimage {% if var == 'flex-none'%}{{ var }}{% endif %}">
-                    <img src="{{ car.image }}" alt="{{ car.brand }} {{ car.model }} {{ car.bodyType }} {{ car.engine.powerKW }} KW / {{ car.engine.powerHP }} HP" width="300" height="400">
+                <div {% if var == "flex-none"%}class="flex"{% endif %}>
+                    <div class="carimage {% if var == 'flex-none'%}{{ var }}{% endif %}">
+                        <img src="{{ car.image }}" alt="{{ car.brand }} {{ car.model }} {{ car.bodyType }} {{ car.engine.powerKW }} KW / {{ car.engine.powerHP }} HP" width="300" height="400">
+                    </div>
+
+                    <div class="ml-5">
+                        <div class="information">
+                            <p><strong>Model Information</strong></p>
+                            <p>Brand: {{ car.brand }}</p>
+                            <p>Model: {{ car.model }}</p>
+                            <p>Model: {{ car.bodyType }}</p>
+                        </div>
+                        <div class="information">
+                            <p><strong>Engine</strong></p>
+                            <p>Engine Displacement: {{ car.engine.engineDisplacement }}</p>
+                            <p>Engine Power: {{ car.engine.powerKW }}KW / {{ car.engine.powerHP }}HP</p>
+                        </div>
+                        <div class="information">
+                            <p><strong>General Information</strong></p>
+                            <p>Registered till: {{ car.registrationExpirationDate|date("m/Y") }}</p>
+                            <p>Description: {{ car.description }}</p>
+                            <p>URL: <a href="{{ car.url }}" target="_blank"><u class='-link'>Click here to visit the add</u></a></p>
+                            {% if car.comment %}
+                                <p>Comment: {{ car.comment }}</p>
+                            {% endif %}
+                            <p class="car-price">Price: {{ car.price }} {{ 'EUR'|currency_symbol }}</p>
+                        </div>
+                    </div>
+
+                    {% if var != "flex-none" %} {# Hiding seller information on index page #}
+                        <div class="information">
+                            <p><strong>Seller Contact Information</strong></p>
+                            <p>Location: {{ car.seller.location }}</p>
+                            <p>Phone: {{ car.seller.phone }}</p>
+                            <p>Contacted: YES / NO</p>
+
+                            <div class="buttonholder">
+                                <a class="addbutton" href="{{ path('app_communication_new', {'car': car.id}) }}">Add new communication</a>
+                            </div>
+
+                            <div class="communications">
+                                {% for item in car.communication %}
+                                    <p class="comment-date">{{ item.date|date('Y-m-d h:i:s') }}</p>
+                                    <p class="comments">{{ item.comment }}</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
 
-                <div class="ml-5">
-                    <div class="information">
-                        <p><strong>Model Information</strong></p>
-                        <p>Brand: {{ car.brand }}</p>
-                        <p>Model: {{ car.model }}</p>
-                        <p>Model: {{ car.bodyType }}</p>
-                    </div>
-                    <div class="information">
-                        <p><strong>Engine</strong></p>
-                        <p>Engine Displacement: {{ car.engine.engineDisplacement }}</p>
-                        <p>Engine Power: {{ car.engine.powerKW }}KW / {{ car.engine.powerHP }}HP</p>
-                    </div>
-                    <div class="information">
-                        <p><strong>General Information</strong></p>
-                        <p>Registered till: {{ car.registrationExpirationDate|date("m/Y") }}</p>
-                        <p>Description: {{ car.description }}</p>
-                        <p>URL: <a href="{{ car.url }}" target="_blank"><u class='-link'>Click here to visit the add</u></a></p>
-                        {% if car.comment %}
-                            <p>Comment: {{ car.comment }}</p>
-                        {% endif %}
-                        <p class="car-price">Price: {{ car.price }} {{ 'EUR'|currency_symbol }}</p>
-                    </div>
-                </div>
-
-                {% if var != "flex-none" %} {# Hiding seller information on index page #}
-                    <div class="information">
-                        <p><strong>Seller Contact Information</strong></p>
-                        <p>Location: {{ car.seller.location }}</p>
-                        <p>Phone: {{ car.seller.phone }}</p>
-                        <p>Contacted: YES / NO</p>
-
-                        <div class="buttonholder">
-                            <a class="addbutton" href="{{ path('app_communication_new', {'car': car.id}) }}">Add new communication</a>
-                        </div>
-
-                        <div class="communications">
-                            {% for item in car.communication %}
-                                <p class="comment-date">{{ item.date|date('Y-m-d h:i:s') }}</p>
-                                <p class="comments">{{ item.comment }}</p>
-                            {% endfor %}
-                        </div>
+                {% if var == "flex-none" %}
+                    <div class="moreinfo">
+                        <a href="{{ path('app_show_car', {id: car.id}) }}">Click here for more info</a>
                     </div>
                 {% endif %}
+
             </div>
-
-            {% if var == "flex-none" %}
-                <div class="moreinfo">
-                    <a href="{{ path('app_show_car', {id: car.id}) }}">Click here for more info</a>
-                </div>
-            {% endif %}
-
-        </div>
-    {% endfor %}
+        {% endfor %}
+    {% endif %}
 </div>
     
 {% endblock %}
