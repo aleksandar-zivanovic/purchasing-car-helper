@@ -72,7 +72,7 @@ html {
 
 /* fixed css */
 
-.order-by-buttons {
+.right-sided-buttons {
     @apply flex justify-end mt-5;
 
     > .ascending {
@@ -81,6 +81,14 @@ html {
 
     > .descending {
         @apply w-6 h-6 p-2 mr-2 bg-fuchsia-300 hover:bg-sky-200 rounded-3xl box-content;
+    }
+
+    > .edit {
+        @apply bg-green-100 rounded-s-2xl border-2 border-gray-600 py-1 px-8 m-0 font-bold hover:text-white hover:bg-green-600;
+    }
+
+    > .delete {
+        @apply bg-red-100 rounded-e-2xl border-2 border-gray-600 py-1 px-8 font-bold hover:text-white hover:bg-red-600;
     }
 }
 
