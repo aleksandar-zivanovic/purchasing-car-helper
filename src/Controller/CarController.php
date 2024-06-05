@@ -6,6 +6,7 @@ use App\Entity\Car;
 use App\Entity\Seller;
 use App\Form\CarType;
 use App\Repository\CarRepository;
+use App\Repository\SellerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -99,6 +100,79 @@ class CarController extends AbstractController
         return $this->render('car/new.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    #[Route('/edit/{id}', name:'app_edit_car', requirements:['id' => '\d+'])]
+    public function edit(
+        $id, 
+        EntityManagerInterface $em, 
+        CarRepository $carRepository, 
+        Request $request, 
+        SellerRepository $sr
+    ): Response
+    {
+        $car = $carRepository->find($id);
+        $userId = $this->getUser()->getId();
+
+        if (($car != null && $userId ===  $car->getUser()->getId()) || in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
+            $form = $this->createForm(CarType::class, $car);
+            $form->handleRequest($request);
+    
+            if ($form->isSubmitted() && $form->isValid()) {
+                $car = $form->getData();
+                $phone = $car->getSeller()->getPhone();
+                $seller = $em->getRepository(Seller::class)->findOneBy(['phone' => $phone]);
+    
+                // if there is not a seller with a specified phone number creat a new one
+                if (!$seller) {
+                    $location = $car->getSeller()->getLocation();
+                    $seller = new Seller();
+                    $seller->setlocation($location);
+                    $seller->setPhone($phone);
+                    $em->persist($seller);
+                    $em->flush();
+                }
+                
+                // removing sellers without cars if there are
+                $removeSellers = $sr->findSellerIdsWithoutCars();
+
+                if ($removeSellers) {
+                    foreach($removeSellers as $sellerId) {
+                        $exSeller = $sr->find($sellerId);
+                        $em->remove($exSeller);
+                    }
+                }
+    
+                $car->setSeller($seller);
+                
+                $em->persist($car);
+                $em->flush();
+                $this->addFlash('success', 'Congratulation! You updated your ad successfully!');
+                return $this->redirectToRoute('app_show_car', ['id' => $car->getId()]);
+            }
+        } else {
+            $this->addFlash(
+                type:'car-edit-failed', 
+                message: 'This is not your ad. You dont have permission to edit it!',
+            );
+            return $this->redirectToRoute('app_show_car', ['id' => $car->getId()]);
+        }
+
+        return $this->render('car/new.html.twig', [
+            'form' => $form,
+            'action' => 'edit',
+        ]);
+    }
+
+    #[Route('/test', priority:100)]
+    public function test(SellerRepository $sr): Response
+    {
+        $result = $sr->findSellerIdsWithoutCars();
+
+        // Kreiramo string iz niza ID-jeva za lakši prikaz
+        $output = implode(', ', $result);
+
+        return new Response($output);
     }
 
     #[Route('/delete/{id}', name:'app_delete_car', requirements:['id' => '\d+'])]

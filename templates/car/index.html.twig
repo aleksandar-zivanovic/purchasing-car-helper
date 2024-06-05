@@ -34,6 +34,14 @@
     <div class="flash-error">{{ message }}</div>
 {% endfor %}
 
+{% for message in app.flashes('car-edit-failed') %}
+    <div class="flash-error">{{ message }}</div>
+{% endfor %}
+
+{# 
+    TODO: Group all flash messages and display them by type
+ #}
+
 {% if data is not empty %}
     {% if var == "flex-none" %}
     <div class="right-sided-buttons">
