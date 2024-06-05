@@ -71,7 +71,7 @@ class CarController extends AbstractController
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $car = new Car();
-        $form = $this->createForm(CarType::class, $car, ['submit_label' => 'new']);
+        $form = $this->createForm(CarType::class, $car);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -162,17 +162,6 @@ class CarController extends AbstractController
             'form' => $form,
             'action' => 'edit',
         ]);
-    }
-
-    #[Route('/test', priority:100)]
-    public function test(SellerRepository $sr): Response
-    {
-        $result = $sr->findSellerIdsWithoutCars();
-
-        // Kreiramo string iz niza ID-jeva za lakši prikaz
-        $output = implode(', ', $result);
-
-        return new Response($output);
     }
 
     #[Route('/delete/{id}', name:'app_delete_car', requirements:['id' => '\d+'])]
