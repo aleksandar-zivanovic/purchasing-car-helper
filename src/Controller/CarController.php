@@ -71,7 +71,7 @@ class CarController extends AbstractController
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $car = new Car();
-        $form = $this->createForm(CarType::class, $car);
+        $form = $this->createForm(CarType::class, $car, ['submit_label' => 'new']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -115,7 +115,7 @@ class CarController extends AbstractController
         $userId = $this->getUser()->getId();
 
         if (($car != null && $userId ===  $car->getUser()->getId()) || in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
-            $form = $this->createForm(CarType::class, $car);
+            $form = $this->createForm(CarType::class, $car, ['submit_label' => 'edit']);
             $form->handleRequest($request);
     
             if ($form->isSubmitted() && $form->isValid()) {

@@ -3,14 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Car;
-use App\Entity\Engine;
-use App\Entity\Seller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
@@ -22,6 +19,7 @@ class CarType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $submitLabel = isset($options['submit_label']) && $options['submit_label'] === 'edit' ? 'Edit car details' : 'Add new car';
         $builder
             ->add('brand', TextType::class)
             ->add('model', TextType::class)
@@ -43,13 +41,10 @@ class CarType extends AbstractType
             ->add('comment', TextareaType::class)
             ->add('price', NumberType::class)
             ->add('seller', SellerType::class)
-            // ->add('seller', SellerType::class, [
-            //     'constraints' => [new Valid()],
-            // ])
             ->add('engine', EngineType::class, [
                 'constraints' => array(new Valid()),
             ])
-            ->add('submit', SubmitType::class, ['label' => 'Add new car'])
+            ->add('submit', SubmitType::class, ['label' => $submitLabel])
         ;
     }
 
@@ -57,6 +52,7 @@ class CarType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Car::class,
+            'submit_label' => 'new',
         ]);
     }
 }
