@@ -3,10 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Car;
-use App\Entity\Seller;
 use App\Form\CarType;
 use App\Repository\CarRepository;
 use App\Repository\SellerRepository;
+use App\Service\SellerManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -68,7 +68,7 @@ class CarController extends AbstractController
 
     #[Route('/new', name: 'app_new_car', priority: 2)]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, EntityManagerInterface $em): Response
+    public function new(Request $request, EntityManagerInterface $em, SellerRepository $sr): Response
     {
         $car = new Car();
         $form = $this->createForm(CarType::class, $car);
@@ -77,16 +77,11 @@ class CarController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $car = $form->getData();
             $phone = $car->getSeller()->getPhone();
-            $seller = $em->getRepository(Seller::class)->findOneBy(['phone' => $phone]);
-
-            if (!$seller) {
-                $location = $car->getSeller()->getLocation();
-                $seller = new Seller();
-                $seller->setlocation($location);
-                $seller->setPhone($phone);
-                $em->persist($seller);
-                $em->flush();  
-            }
+            
+            // if there is not a seller with a specified phone number creat a new one
+            $location = $car->getSeller()->getLocation();
+            $service = new SellerManager(entityManager:$em, sellerRepository:$sr);
+            $seller = $service->findOrCreateSeller(phone:$phone, location:$location);
 
             $car->setSeller($seller);
             $car->setUser($this->getUser());
@@ -121,17 +116,11 @@ class CarController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $car = $form->getData();
                 $phone = $car->getSeller()->getPhone();
-                $seller = $em->getRepository(Seller::class)->findOneBy(['phone' => $phone]);
+                $location = $car->getSeller()->getLocation();
     
                 // if there is not a seller with a specified phone number creat a new one
-                if (!$seller) {
-                    $location = $car->getSeller()->getLocation();
-                    $seller = new Seller();
-                    $seller->setlocation($location);
-                    $seller->setPhone($phone);
-                    $em->persist($seller);
-                    $em->flush();
-                }
+                $service = new SellerManager(entityManager:$em, sellerRepository:$sr);
+                $seller = $service->findOrCreateSeller(phone:$phone, location:$location);
                 
                 // removing sellers without cars if there are
                 $removeSellers = $sr->findSellerIdsWithoutCars();
@@ -142,8 +131,6 @@ class CarController extends AbstractController
                         $em->remove($exSeller);
                     }
                 }
-    
-                $car->setSeller($seller);
                 
                 $em->persist($car);
                 $em->flush();
