@@ -81,8 +81,8 @@
 
                 <!-- Edit & Delete buttons -->
                 <div class="right-sided-buttons">
-                    <a href="#" class="edit">EDIT</a>
-                    <a href="#" class="delete">DELETE</a>
+                    <a href="{{ path('app_edit_car', { 'id': car.id }) }}" class="edit">EDIT</a>
+                    <a href="{{ path('app_delete_car', { 'id': car.id}) }}" class="delete">DELETE</a>
                 </div>
 
                 <div {% if var == "flex-none"%}class="flex"{% endif %}>
