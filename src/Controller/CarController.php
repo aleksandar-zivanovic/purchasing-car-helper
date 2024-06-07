@@ -142,7 +142,7 @@ class CarController extends AbstractController
                 type:'car-edit-failed', 
                 message: 'This is not your ad. You dont have permission to edit it!',
             );
-            return $this->redirectToRoute('app_show_car', ['id' => $car->getId()]);
+            return $this->redirectToRoute('app_cars_index');
         }
 
         return $this->render('car/new.html.twig', [
