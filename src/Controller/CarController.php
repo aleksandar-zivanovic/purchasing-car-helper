@@ -88,7 +88,7 @@ class CarController extends AbstractController
             
             $em->persist($car);
             $em->flush();
-            $this->addFlash('success', 'Congratulation! New car ad is saved successfully.');
+            $this->addFlash('new-car-success', 'Congratulation! New car ad is saved successfully.');
             return $this->redirectToRoute('app_cars_index');
         }
 
@@ -120,7 +120,7 @@ class CarController extends AbstractController
     
                 // if there is not a seller with a specified phone number creat a new one
                 $service = new SellerManager(entityManager:$em, sellerRepository:$sr);
-                $seller = $service->findOrCreateSeller(phone:$phone, location:$location);
+                $service->findOrCreateSeller(phone:$phone, location:$location);
                 
                 // removing sellers without cars if there are
                 $removeSellers = $sr->findSellerIdsWithoutCars();

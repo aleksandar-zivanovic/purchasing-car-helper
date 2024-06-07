@@ -17,22 +17,24 @@
 {% set message_types = [
     'car-edit-success', 
     'new-communication-success', 
-    'registration-info',
+    'registration-info', 
+    'registration-success', 
     'car-delete-success', 
     'car-delete-failed',
-    'car-edit-failed'
+    'car-edit-failed', 
+    'new-car-success', 
 ] %}
 
 {% set fail_messages = [] %}
 {% set success_messages = [] %}
 {% set info_messages = [] %}
 {% for type in message_types %}
-    {% if 'filed' in type %}
+    {% if 'failed' in type %}
         {% set fail_messages = fail_messages | merge(app.flashes(type)) %}
     {% elseif 'success' in type %}
-        {% set success_messages = fail_messages | merge(app.flashes(type)) %}
+        {% set success_messages = success_messages | merge(app.flashes(type)) %}
     {% elseif 'info' in type %}
-        {% set info_messages = fail_messages | merge(app.flashes(type)) %}
+        {% set info_messages = info_messages | merge(app.flashes(type)) %}
     {% endif %}
     
 {% endfor %}
