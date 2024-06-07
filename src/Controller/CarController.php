@@ -134,7 +134,7 @@ class CarController extends AbstractController
                 
                 $em->persist($car);
                 $em->flush();
-                $this->addFlash('success', 'Congratulation! You updated your ad successfully!');
+                $this->addFlash('car-edit-success', 'Congratulation! You updated your ad successfully!');
                 return $this->redirectToRoute('app_show_car', ['id' => $car->getId()]);
             }
         } else {
@@ -161,7 +161,7 @@ class CarController extends AbstractController
             $em->remove($car);
             $em->flush();
             $this->addFlash(
-                type:'car-delete-successful', 
+                type:'car-delete-success', 
                 message: 'Ad is removed from your list!');
         } elseif ($car == null) {
             $this->addFlash(

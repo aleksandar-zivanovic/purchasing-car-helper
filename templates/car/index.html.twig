@@ -13,34 +13,41 @@
     {% set var = "" %}  {# for show() method #}
 {% endif %}
 
+<!-- Flash messages -->
+{% set message_types = [
+    'car-edit-success', 
+    'new-communication-success', 
+    'registration-info',
+    'car-delete-success', 
+    'car-delete-failed',
+    'car-edit-failed'
+] %}
 
-{% for message in app.flashes('success') %}
+{% set fail_messages = [] %}
+{% set success_messages = [] %}
+{% set info_messages = [] %}
+{% for type in message_types %}
+    {% if 'filed' in type %}
+        {% set fail_messages = fail_messages | merge(app.flashes(type)) %}
+    {% elseif 'success' in type %}
+        {% set success_messages = fail_messages | merge(app.flashes(type)) %}
+    {% elseif 'info' in type %}
+        {% set info_messages = fail_messages | merge(app.flashes(type)) %}
+    {% endif %}
+    
+{% endfor %}
+
+{% for message in success_messages %}
     <div class="flash-successful">{{ message }}</div>
 {% endfor %}
 
-{% for message in app.flashes('new-communication-success') %}
-    <div class="flash-successful">{{ message }}</div>
+{% for message in fail_messages %}
+    <div class="flash-error">{{ message }}</div>
 {% endfor %}
 
-{% for message in app.flashes('registration-info') %}
+{% for message in info_messages %}
     <div class="flash-info">{{ message }}</div>
 {% endfor %}
-
-{% for message in app.flashes('car-delete-successful') %}
-    <div class="flash-successful">{{ message }}</div>
-{% endfor %}
-
-{% for message in app.flashes('car-delete-failed') %}
-    <div class="flash-error">{{ message }}</div>
-{% endfor %}
-
-{% for message in app.flashes('car-edit-failed') %}
-    <div class="flash-error">{{ message }}</div>
-{% endfor %}
-
-{# 
-    TODO: Group all flash messages and display them by type
- #}
 
 {% if data is not empty %}
     {% if var == "flex-none" %}

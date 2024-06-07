@@ -18,7 +18,7 @@ class AppFixtures extends Fixture
         $user->setEmail('email@example.com');
         $user->setFirstName('John');
         $user->setLastName('Doe');
-        $user->setPassword('12345');
+        $user->setPassword('$2y$13$CNExZFhxFrrCeVHm1TK9Zu/kG4MOYskaPNFCrWWMu9TpFMzOoST5S');
         $user->setRoles(["ROLE_USER"]);
 
         $car = new Car();
