@@ -23,7 +23,11 @@
 <!-- end of Added Car Models button logic -->
 
 <!-- Allowed routes -->
-{% set allowedRoutes = ['app_cars_index', 'app_cars_by_model', 'app_cars_with_communication'] %}
+{% set allowedRoutes = [
+  'app_cars_index', 
+  'app_cars_by_model', 
+  'app_cars_with_communication'
+  ] %}
 {% if app.current_route in allowedRoutes %}
   {% set isAllowedRoute = true %}
 {% else %}
@@ -69,57 +73,19 @@
         data-twe-navbar-nav-ref>
         <!-- Home link -->
         {{ include('/shared/_nav_button.html.twig', {'path': path('app_cars_index'), 'name': 'Home'}) }}
+        <!-- Links showing on pages in isAllowedRoute list -->
         {% if isAllowedRoute %}
-        <!-- Add new car ad Button-->
-        {{ include('/shared/_nav_button.html.twig', {'path': path('app_new_car'), 'name': 'Add new car ad'}) }}
-        <!-- Cars with Communications Button -->
-        {{ include('/shared/_nav_button.html.twig', {'path': path('app_cars_with_communication'), 'name': 'Cars with Communications'}) }}
-        <!-- Dropdown link -->
-        <li
-          class="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0"
-          data-twe-nav-item-ref
-          data-twe-dropdown-ref>
-          <!-- Dropdown -->
-          <a
-            id="dropDownButton" 
-            class="flex items-center text-black/60 transition duration-200 hover:text-black/80 hover:ease-in-out focus:text-black/80 active:text-black/80 motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2"
-            type="button"
-            id="dropdownMenuButton2"
-            data-twe-dropdown-toggle-ref
-            aria-expanded="false" 
-            onclick='showDropDownMenu()'>
-            Added Car Models
-            <span class="ms-1 [&>svg]:w-5">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor">
-                <path
-                  fill-rule="evenodd"
-                  d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                  clip-rule="evenodd" />
-              </svg>
-            </span>
-          </a>
-          <ul
-            id="dropdown-content" 
-            class="absolute z-[1000] float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg data-[twe-dropdown-show]:block dark:bg-surface-dark"
-            aria-labelledby="dropdownMenuButton1"
-            data-twe-dropdown-menu-ref>
-
-            {% for singleCar in uniqueCars %}
-              <li>
-                <a
-                  class="block w-full whitespace-nowrap bg-white px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-zinc-200/60 focus:bg-zinc-200/60 focus:outline-none active:bg-zinc-200/60 active:no-underline dark:bg-surface-dark dark:text-white dark:hover:bg-neutral-800/25 dark:focus:bg-neutral-800/25 dark:active:bg-neutral-800/25"
-                  href="/cars/{{ singleCar.brand }}-{{ singleCar.model }}-{{ singleCar.engineDisplacement }}-{{ singleCar.fuel }}"
-                  data-twe-dropdown-item-ref
-                  >{{ singleCar.brand }} {{ singleCar.model }} {{ singleCar.engine }} {{ singleCar.fuel }}</a
-                >
-              </li>
-            {% endfor %}
-            
-          </ul>
-        </li>
+          <!-- Add new car ad Button-->
+          {{ include('/shared/_nav_button.html.twig', {'path': path('app_new_car'), 'name': 'Add new car ad'}) }}
+          <!-- Cars with Communications Button -->
+          {{ include('/shared/_nav_button.html.twig', {'path': path('app_cars_with_communication'), 'name': 'Cars with Communications'}) }}
+          <!-- Dropdown link -->
+          <div id="added_models">
+            {{ include(
+              '/shared/_nav_dropdown.html.twig', 
+              {'path': path('app_cars_with_communication'), arrayOfButtons: uniqueCars, title: 'Added Car Models', navDivId: 'added_models' }
+            ) }}
+          </div>
         {% endif %}
 
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
@@ -131,6 +97,23 @@
         <!-- Registration Button -->
         {{ include('/shared/_nav_button.html.twig', {'path': path('app_register'), 'name': 'Register'}) }}
         {% endif %}
+
+        <!-- Admin panel buttons -->
+        {% if is_granted('ROLE_ADMIN') %}
+          {% set admin_links = [ 
+            {'title': 'Users', 'link': 'app_cars_index'}, 
+            {'title': 'Cars', 'link': 'app_cars_index'}, 
+            {'title': 'Car Sellers', 'link': 'app_cars_index'}, 
+          ] %}
+
+          <div id="admin_buttons">
+            {{ include('/shared/_nav_dropdown.html.twig', {
+              arrayOfButtons: admin_links, 
+              title: 'ADMINISTRATION', 
+              navDivId: 'admin_buttons'  
+            }) }}
+          </div>
+        {% endif %}
       </ul>
     </div>
   </div>
@@ -140,21 +123,30 @@
     <p class="userinfo">Welcome: {{ app.user.email }}</p>
   </div>
   {% endif %}
-
 </nav>
 
 <script>
-  function showDropDownMenu() {
-    let dropDownContent = document.getElementById('dropdown-content')
+  let currentNavDivId = null;
+  
+  function showDropDownMenu(navDivId) {
+    let dropDownContent = document.getElementById("dropDownContent_" + navDivId)
     dropDownContent.classList.toggle('hidden');
+    currentNavDivId = navDivId;
   }
 
-// Close the dropdown menu if the user clicks outside of it
-window.onclick = function(event) {
-  let dropDownButton = document.getElementById('dropDownButton')
-  let dropDownContent = document.getElementById('dropdown-content')
-  if (!event.target.matches('#dropDownButton')) {
-    dropDownContent.classList.add('hidden');
+  // Close the dropdown menu if the user clicks outside of it
+  window.onclick = function(event) {
+    console.log("window.onclick event funkcija");
+    let dropDownButton = document.getElementById('dropDownButton_' + currentNavDivId)
+    let dropDownContent = document.getElementById("dropDownContent_" + currentNavDivId)
+    if (!event.target.matches('#dropDownButton_' + currentNavDivId)) {
+      dropDownContent.classList.add('hidden');
+    }
   }
-}
+
+  // Adding background color to Administration button
+  if(document.getElementById('dropDownButton_admin_buttons')) {
+    document.getElementById('dropDownButton_admin_buttons').classList.add('bg-sky-200');
+    document.getElementById('dropDownButton_admin_buttons').classList.add('rounded');
+  }
 </script>
