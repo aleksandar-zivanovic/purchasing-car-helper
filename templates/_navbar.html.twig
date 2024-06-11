@@ -101,9 +101,9 @@
         <!-- Admin panel buttons -->
         {% if is_granted('ROLE_ADMIN') %}
           {% set admin_links = [ 
-            {'title': 'Users', 'link': 'app_cars_index'}, 
-            {'title': 'Cars', 'link': 'app_cars_index'}, 
-            {'title': 'Car Sellers', 'link': 'app_cars_index'}, 
+            {'title': 'Users', 'link': 'app_admin_users'}, 
+            {'title': 'Cars', 'link': 'app_admin_users'}, 
+            {'title': 'Car Sellers', 'link': 'app_admin_users'}, 
           ] %}
 
           <div id="admin_buttons">

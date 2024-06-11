@@ -151,3 +151,37 @@ html {
         @apply bg-gray-200 lg:mr-4 lg:py-1 lg:px-2 hover:bg-sky-200;
     }
 }
+
+
+
+.table {
+    @apply border-[3px] border-solid border-black border-collapse my-2 w-full;
+
+    > .table_row {
+        @apply hover:bg-gray-200;
+    }
+
+    & .column_name {
+        @apply bg-[lightblue] border border-black p-[3px];
+    }
+
+    & .cell {
+        @apply border border-black p-[3px];
+    }
+
+    & .table_edit_th {
+        @apply !bg-green-600 text-white;
+    }
+
+    & .table_delete_th {
+        @apply !bg-red-600 text-white;
+    }
+    
+    & .table_delete_btn {
+        @apply bg-[coral] hover:bg-red-200 text-center;
+    }
+    
+    & .table_edit_btn {
+        @apply bg-[lightgreen] hover:bg-green-100 text-center;
+    }
+}
