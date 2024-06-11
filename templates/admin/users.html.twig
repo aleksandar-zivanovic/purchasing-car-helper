@@ -3,6 +3,44 @@
 {% block title %}User Administration Panel{% endblock %}
 
 {% block body %}
+
+    <!-- Flash messages -->
+    {% set message_types = [
+        'edit-success', 
+        'new-success', 
+        'delete-success', 
+        'delete-failed',
+        'edit-failed', 
+        'new-success', 
+    ] %}
+
+    {% set fail_messages = [] %}
+    {% set success_messages = [] %}
+    {% set info_messages = [] %}
+    {% for type in message_types %}
+        {% if 'failed' in type %}
+            {% set fail_messages = fail_messages | merge(app.flashes(type)) %}
+        {% elseif 'success' in type %}
+            {% set success_messages = success_messages | merge(app.flashes(type)) %}
+        {% elseif 'info' in type %}
+            {% set info_messages = info_messages | merge(app.flashes(type)) %}
+        {% endif %}
+        
+    {% endfor %}
+
+    {% for message in success_messages %}
+        <div class="flash-successful">{{ message }}</div>
+    {% endfor %}
+
+    {% for message in fail_messages %}
+        <div class="flash-error">{{ message }}</div>
+    {% endfor %}
+
+    {% for message in info_messages %}
+        <div class="flash-info">{{ message }}</div>
+    {% endfor %}
+
+
     <div class="car-info-wrapper">
         <table class="table">
             <thead>
@@ -29,8 +67,7 @@
                             <a href="#" class="block">EDIT</a>
                         </td>
                         <td class="cell table_delete_btn">
-                            {# <a href="{{ path('app_delete_user', {id: user.id}) }}" class="block">DELETE</a> #}
-                            <a href="#" class="block">DELETE</a>
+                            <a href="{{ path('app_admin_delete_user', {id: user.id}) }}" class="block">DELETE</a>
                         </td>
                     </tr>
                 {% endfor %}
