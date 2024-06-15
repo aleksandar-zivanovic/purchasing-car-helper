@@ -50,21 +50,29 @@
                     <th class="column_name">First name</th>
                     <th class="column_name">Last name</th>
                     <th class="column_name">Role</th>
+                    <th class="column_name">Verified</th>
                     <th class="column_name table_edit_th">EDIT</th>
                     <th class="column_name table_delete_th">DELETE</th>
                 </tr>
             </thead>
             <tbody>
                 {% for user in users %}
+                    {% if user.isVerified == 1 %}
+                        {% set status = "verified" %}
+                        {% set statusStyle = "text-green-500" %}
+                    {% else %}
+                        {% set status = "unverified" %}
+                        {% set statusStyle = "text-red-500" %}
+                    {% endif %}
                     <tr class="table_row">
                         <td class="cell">{{ user.id }}</td>
                         <td class="cell">{{ user.email }}</td>
                         <td class="cell">{{ user.firstName }}</td>
                         <td class="cell">{{ user.lastName }}</td>
                         <td class="cell">{{ user.roles.0 }}</td>
+                        <td class="cell text-center {{ statusStyle }}">{{ status }}</td>
                         <td class="cell table_edit_btn">
-                            {# <a href="{{ path('app_edit_user', {id: user.id} ) }}" class="block">EDIT</a> #}
-                            <a href="#" class="block">EDIT</a>
+                            <a href="{{ path('app_admin_edit_user', {id: user.id} ) }}" class="block">EDIT</a>
                         </td>
                         <td class="cell table_delete_btn">
                             <a href="{{ path('app_admin_delete_user', {id: user.id}) }}" class="block">DELETE</a>

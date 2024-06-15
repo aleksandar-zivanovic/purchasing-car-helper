@@ -157,7 +157,7 @@ html {
 .table {
     @apply border-[3px] border-solid border-black border-collapse my-2 w-full;
 
-    > .table_row {
+    & .table_row {
         @apply hover:bg-gray-200;
     }
 

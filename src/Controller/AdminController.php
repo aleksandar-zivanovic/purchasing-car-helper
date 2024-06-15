@@ -8,7 +8,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\User;
+use App\Form\AdminUserEditType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 #[IsGranted('ROLE_ADMIN')]
 class AdminController extends AbstractController
@@ -22,6 +24,32 @@ class AdminController extends AbstractController
             'users' => $users,
         ]);
     }
+
+    #[Route('/admin/users/edit/{id}', name: 'app_admin_edit_user')]
+    public function editUser(User|null $user, Request $request, EntityManagerInterface $em): Response
+    {
+        if ($user != null && !in_array(needle:'ROLE_ADMIN', haystack:$user->getRoles())) {
+            $form = $this->createForm(AdminUserEditType::class, $user);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $user = $form->getData();
+                $em->persist($user);
+                $em->flush();
+
+                $this->addFlash('edit-success', 'User details are updated successfuly!');
+                return $this->redirectToRoute('app_admin_users');
+            }
+        } else {
+            $this->addFlash('edit-failed', 'User doesn\'t exist or you don\'t have a privilege to edit this user\'s details!');
+            return $this->redirectToRoute('app_admin_users');
+        }
+        
+        return $this->render('admin/users.edit.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
 
     #[Route('/admin/users/delete/{id}', name: 'app_admin_delete_user', requirements:['id' => '\d+'])]
     public function deleteUser(User|null $user, EntityManagerInterface $em): Response

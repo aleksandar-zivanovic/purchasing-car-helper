@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'form/errors.html.twig' %}
+
+{% block title %}Administration - Edit User{% endblock %}
+
+{% block body %}
+
+	<div class="form_wrapper">
+
+		<div class="formname">Edit User:</div>
+
+		{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+		{{ form_errors(form) }}
+
+		<div class="sectiontitle">
+			<p class="-title">User details:</p>
+		</div>
+
+		<div class="formblock">
+			<div class="noerror">
+				{{ form_label(form.email, 'User email', {'label_attr': {'class': '-label'}}) }}
+				{{ form_widget(form.email, {'attr': {'class': '-widget'}}) }}
+			</div>
+			{{ form_errors(form.email) }}
+		</div>
+
+		<div class="formblock">
+			<div class="noerror">
+				{{ form_label(form.roles, 'Set user role', {'label_attr': {'class': '-label'}}) }}
+				{{ form_widget(form.roles, {'attr': {'class': '-widget'}}) }}
+			</div>
+			{{ form_errors(form.roles) }}
+		</div>
+
+		<div class="formblock">
+			<div class="noerror">
+				{{ form_label(form.firstName, 'User\'s first name', {'label_attr': {'class': '-label'}}) }}
+				{{ form_widget(form.firstName, {'attr': {'class': '-widget'}}) }}
+			</div>
+			{{ form_errors(form.firstName) }}
+		</div>
+
+		<div class="formblock">
+			<div class="noerror">
+				{{ form_label(form.lastName, 'User\'s first name', {'label_attr': {'class': '-label'}}) }}
+				{{ form_widget(form.lastName, {'attr': {'class': '-widget'}}) }}
+			</div>
+			{{ form_errors(form.lastName) }}
+		</div>
+
+		<div class="formblock">
+			<div class="noerror">
+				{{ form_label(form.isVerified, 'Verify user', {'label_attr': {'class': '-label'}}) }}
+				{{ form_widget(form.isVerified, {'attr': {'class': '-widget'}}) }}
+			</div>
+			{{ form_errors(form.isVerified) }}
+		</div>
+
+		<div class="formblock">
+			<div class="noerror">
+			{{ form_widget(form.submit, {'attr': {'class': '-submit'}}) }}
+			</div>
+		</div>
+
+		{{ form_end(form) }}
+
+        </div>
+	</div>
+
+{% endblock %}
