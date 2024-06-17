@@ -94,6 +94,7 @@ class CarController extends AbstractController
 
         return $this->render('car/new.html.twig', [
             'form' => $form,
+            'action' => 'delete',
         ]);
     }
 

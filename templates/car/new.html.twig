@@ -1,7 +1,13 @@
 {% extends 'base.html.twig' %}
 {% form_theme form 'form/errors.html.twig' %}
 
-{% block title %}Add New Car{% endblock %}
+{% block title %}
+	{% if action == 'edit' %}
+		Edit car details
+	{% elseif action == 'delete' %}
+		Add New Car
+	{% endif %}
+{% endblock %}
 
 {% block body %}
 
