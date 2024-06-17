@@ -9,12 +9,16 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\User;
 use App\Form\AdminUserEditType;
+use App\Repository\CarRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 #[IsGranted('ROLE_ADMIN')]
 class AdminController extends AbstractController
 {
+    /** 
+     * Users administration
+     */
     #[Route('/admin/users', name: 'app_admin_users')]
     public function users(UserRepository $userRepository): Response
     {
@@ -74,5 +78,18 @@ class AdminController extends AbstractController
         }
 
         return $this->redirectToRoute('app_admin_users');
+    }
+
+    /** 
+     * Cars administration
+     */
+    #[Route('/admin/cars', name: 'app_admin_cars')]
+    public function cars(CarRepository $carRepository): Response
+    {
+        $cars = $carRepository->allUserCarsWithAllDetails();
+
+        return $this->render('admin/cars.html.twig', [
+            'cars' => $cars,
+        ]);
     }
 }

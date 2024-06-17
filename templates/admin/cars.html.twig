@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Car Administration Panel{% endblock %}
+
+{% block body %}
+
+    <!-- Flash messages -->
+    {% set message_types = [
+        'edit-success', 
+        'new-success', 
+        'delete-success', 
+        'delete-failed',
+        'edit-failed', 
+        'new-success', 
+    ] %}
+
+    {% set fail_messages = [] %}
+    {% set success_messages = [] %}
+    {% set info_messages = [] %}
+    {% for type in message_types %}
+        {% if 'failed' in type %}
+            {% set fail_messages = fail_messages | merge(app.flashes(type)) %}
+        {% elseif 'success' in type %}
+            {% set success_messages = success_messages | merge(app.flashes(type)) %}
+        {% elseif 'info' in type %}
+            {% set info_messages = info_messages | merge(app.flashes(type)) %}
+        {% endif %}
+        
+    {% endfor %}
+
+    {% for message in success_messages %}
+        <div class="flash-successful">{{ message }}</div>
+    {% endfor %}
+
+    {% for message in fail_messages %}
+        <div class="flash-error">{{ message }}</div>
+    {% endfor %}
+
+    {% for message in info_messages %}
+        <div class="flash-info">{{ message }}</div>
+    {% endfor %}
+
+
+    <div class="car-info-wrapper">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="column_name">ID</th>
+                    <th class="column_name">Image</th>
+                    <th class="column_name">Brand & Model</th>
+                    <th class="column_name">Engine</th>
+                    <th class="column_name">Body type</th>
+                    <th class="column_name">Description</th>
+                    <th class="column_name">Url</th>
+                    <th class="column_name">Comment</th>
+                    <th class="column_name">Price</th>
+                    <th class="column_name">Seller</th>
+                    <th class="column_name table_edit_th">EDIT</th>
+                    <th class="column_name table_delete_th">DELETE</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for car in cars %}
+                    <tr class="table_row">
+                        <td class="cell">{{ car.id }}</td>
+                        <td class="cell"><img src="{{ car.image }}" width="150rem"></td>
+                        <td class="cell">
+                            <ul>
+                                <li><strong>{{ car.brand }}</strong></li>
+                                <li><strong>{{ car.model }}</strong></li>
+                                <li><i>Registered till:</i></li>
+                                <li>{{ car.registrationExpirationDate|date('Y m d') }}</li>
+                            </ul>
+                        </td>
+                        <td class="cell w-24 text-center">
+                            <ul class="list-none">
+                                <li>{{ car.engine.fuelType }}</li>
+                                <li>{{ car.engine.powerKW }} KW</li>
+                                <li>{{ car.engine.powerHP }} HP</li>
+                            </ul>
+                        </td>
+                        <td class="cell">{{ car.bodyType }}</td>
+                        <td class="cell w-1/4">{{ car.description }}</td>
+                        <td class="cell w-28 text-center text-sky-500">
+                            <a class="hover:text-sky-700" href="{{ car.url }}" target="_blank">Click to visit</a>
+                        </td>
+                        <td class="cell w-1/6">{{ car.comment }}</td>
+                        <td class="cell">{{ car.price }}</td>
+                        <td class="cell text-center">
+                            <ul>
+                                <li>ID: {{ car.seller.id }}</li>
+                                <li>{{ car.seller.phone }}</li>
+                                <li>{{ car.seller.location }}</li>
+                            </ul>
+                        </td>
+                        <td class="cell table_edit_btn">
+                            <a href="{{ path('app_edit_car', {id: car.id} ) }}" class="block">EDIT</a>
+                        </td>
+                        <td class="cell table_delete_btn">
+                            <a href="{{ path('app_delete_car', {id: car.id}) }}" class="block">DELETE</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

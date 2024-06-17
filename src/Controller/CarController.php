@@ -109,7 +109,7 @@ class CarController extends AbstractController
         $car = $carRepository->find($id);
         $userId = $this->getUser()->getId();
 
-        if (($car != null && $userId ===  $car->getUser()->getId()) || in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
+        if ($car != null && ($userId ===  $car->getUser()->getId() || in_array('ROLE_ADMIN', $this->getUser()->getRoles()))) {
             $form = $this->createForm(CarType::class, $car, ['submit_label' => 'edit']);
             $form->handleRequest($request);
     
@@ -157,7 +157,7 @@ class CarController extends AbstractController
         $car = $carRepository->find($id);
         $userId = $this->getUser()->getId();
         
-        if ($car != null && $userId ===  $car->getUser()->getId()) {
+        if ($car != null && ($userId ===  $car->getUser()->getId() || in_array('ROLE_ADMIN', $this->getUser()->getRoles()))) {
             $em->remove($car);
             $em->flush();
             $this->addFlash(
