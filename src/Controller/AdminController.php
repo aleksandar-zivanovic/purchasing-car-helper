@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Seller;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\User;
+use App\Form\AdminSellerEditType;
 use App\Form\AdminUserEditType;
 use App\Repository\CarRepository;
 use App\Repository\SellerRepository;
@@ -104,6 +106,31 @@ class AdminController extends AbstractController
 
         return $this->render('admin/sellers.html.twig', [
             'sellers' => $sellers,
+        ]);
+    }
+    
+    #[Route('/admin/sellers/edit/{id}', name: 'app_admin_edit_seller', requirements:['id' => '\d+'])]
+    public function editSeller(Seller|null $seller, Request $request, EntityManagerInterface $em): Response
+    {
+        if($seller != null) {
+            $form = $this->createForm(AdminSellerEditType::class, $seller);
+            $form->handleRequest($request);
+        
+            if ($form->isSubmitted() && $form->isValid()) {
+                $seller = $form->getData();
+                $em->persist($seller);
+                $em->flush();
+
+                $this->addFlash('edit-success', 'Seller details are updated successfuly!');
+                return $this->redirectToRoute('app_admin_sellers');
+            }    
+        } else {
+            $this->addFlash('edit-failed', 'The seller details update failed!');
+            return $this->redirectToRoute('app_admin_sellers');
+        }
+
+        return $this->render('admin/sellers.edit.html.twig', [
+            'form' => $form,
         ]);
     }
 }

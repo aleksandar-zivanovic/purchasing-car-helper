@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'form/errors.html.twig' %}
+
+{% block title %}Administration - Edit Car Seller{% endblock %}
+
+{% block body %}
+
+	<div class="form_wrapper">
+
+		<div class="formname">Edit Car Seller:</div>
+
+		{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+		{{ form_errors(form) }}
+
+		<div class="sectiontitle">
+			<p class="-title">Seller details:</p>
+		</div>
+
+		<div class="formblock">
+			<div class="noerror">
+				{{ form_label(form.location, 'Seller location', {'label_attr': {'class': '-label'}}) }}
+				{{ form_widget(form.location, {'attr': {'class': '-widget'}}) }}
+			</div>
+			{{ form_errors(form.location) }}
+		</div>
+
+		<div class="formblock">
+			<div class="noerror">
+				{{ form_label(form.phone, 'Seller phone number', {'label_attr': {'class': '-label'}}) }}
+				{{ form_widget(form.phone, {'attr': {'class': '-widget'}}) }}
+			</div>
+			{{ form_errors(form.phone) }}
+		</div>
+
+		<div class="formblock">
+			<div class="noerror">
+			{{ form_widget(form.submit, {'attr': {'class': '-submit'}}) }}
+			</div>
+		</div>
+
+		{{ form_end(form) }}
+
+        </div>
+	</div>
+
+{% endblock %}
