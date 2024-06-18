@@ -32,7 +32,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/users/edit/{id}', name: 'app_admin_edit_user')]
+    #[Route('/admin/users/edit/{id}', name: 'app_admin_edit_user', requirements:['id' => '\d+'])]
     public function editUser(User|null $user, Request $request, EntityManagerInterface $em): Response
     {
         if ($user != null && !in_array(needle:'ROLE_ADMIN', haystack:$user->getRoles())) {
