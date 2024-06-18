@@ -133,4 +133,24 @@ class AdminController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/admin/users/sellers/{id}', name: 'app_admin_delete_seller', requirements:['id' => '\d+'])]
+    public function deleteSeller(Seller|null $seller, EntityManagerInterface $em): Response
+    {
+        if ($seller != null) {
+            $em->remove($seller);
+            $em->flush();
+            $this->addFlash(
+                type:'delete-success', 
+                message: 'Seller is deleted!',
+            );
+        } else {
+            $this->addFlash(
+                type:'delete-failed', 
+                message: 'This seller doesn\'t exist!',
+            );
+        }
+
+        return $this->redirectToRoute('app_admin_sellers');
+    }
 }
