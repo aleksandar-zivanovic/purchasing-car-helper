@@ -27,7 +27,7 @@ class CommunicationController extends AbstractController
             $em->persist($communication);
             $em->flush();
 
-            $this->addFlash('new-communication-success', 'Congratulation! Communication with the seller is saved successfully.');
+            $this->addFlash('new-success', 'Congratulation! Communication with the seller is saved successfully.');
 
             return $this->redirectToRoute('app_show_car', ['id' => $car->getId()]);
         }

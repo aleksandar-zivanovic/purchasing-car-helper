@@ -88,7 +88,7 @@ class CarController extends AbstractController
             
             $em->persist($car);
             $em->flush();
-            $this->addFlash('new-car-success', 'Congratulation! New car ad is saved successfully.');
+            $this->addFlash('new-success', 'Congratulation! New car ad is saved successfully.');
             return $this->redirectToRoute('app_cars_index');
         }
 
@@ -135,12 +135,12 @@ class CarController extends AbstractController
                 
                 $em->persist($car);
                 $em->flush();
-                $this->addFlash('car-edit-success', 'Congratulation! You updated your ad successfully!');
+                $this->addFlash('edit-success', 'Congratulation! You updated your ad successfully!');
                 return $this->redirectToRoute('app_show_car', ['id' => $car->getId()]);
             }
         } else {
             $this->addFlash(
-                type:'car-edit-failed', 
+                type:'edit-failed', 
                 message: 'This is not your ad. You dont have permission to edit it!',
             );
             return $this->redirectToRoute('app_cars_index');
@@ -162,16 +162,16 @@ class CarController extends AbstractController
             $em->remove($car);
             $em->flush();
             $this->addFlash(
-                type:'car-delete-success', 
+                type:'delete-success', 
                 message: 'Ad is removed from your list!');
         } elseif ($car == null) {
             $this->addFlash(
-                type:'car-delete-failed', 
+                type:'delete-failed', 
                 message: 'Chosen ad doesn\'t exist!',
             );
         } elseif ($userId !== $car->getUser()->getId()){
             $this->addFlash(
-                type:'car-delete-failed', 
+                type:'delete-failed', 
                 message: 'This is not your ad. You dont have permission to delete it!',
             );
         }
