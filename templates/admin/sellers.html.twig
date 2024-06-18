@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sellers Administration Panel{% endblock %}
+
+{% block body %}
+
+    <!-- Flash messages -->
+    {% set message_types = [
+        'edit-success', 
+        'new-success', 
+        'delete-success', 
+        'delete-failed',
+        'edit-failed', 
+        'new-success', 
+    ] %}
+
+    {% set fail_messages = [] %}
+    {% set success_messages = [] %}
+    {% set info_messages = [] %}
+    {% for type in message_types %}
+        {% if 'failed' in type %}
+            {% set fail_messages = fail_messages | merge(app.flashes(type)) %}
+        {% elseif 'success' in type %}
+            {% set success_messages = success_messages | merge(app.flashes(type)) %}
+        {% elseif 'info' in type %}
+            {% set info_messages = info_messages | merge(app.flashes(type)) %}
+        {% endif %}
+        
+    {% endfor %}
+
+    {% for message in success_messages %}
+        <div class="flash-successful">{{ message }}</div>
+    {% endfor %}
+
+    {% for message in fail_messages %}
+        <div class="flash-error">{{ message }}</div>
+    {% endfor %}
+
+    {% for message in info_messages %}
+        <div class="flash-info">{{ message }}</div>
+    {% endfor %}
+
+
+    <div class="car-info-wrapper">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="column_name">ID</th>
+                    <th class="column_name">Phone</th>
+                    <th class="column_name">Location</th>
+                    <th class="column_name">Cars</th>
+                    <th class="column_name table_edit_th">EDIT</th>
+                    <th class="column_name table_delete_th">DELETE</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for seller in sellers %}
+                    <tr class="table_row">
+                        <td class="cell">{{ seller.id }}</td>
+                        <td class="cell">{{ seller.phone }}</td>
+                        <td class="cell">{{ seller.location }}</td>
+                        <td class="cell max-w-fit text-center">
+                            <ul>
+                                {% if seller.cars is empty %}
+                                    <li class="text-red-400 italic">no car listed</li>
+                                {% else %}
+                                    {% for car in seller.cars %}
+                                        <li>
+                                            <a 
+                                            class="text-sky-400 hover:text-sky-700" 
+                                            href="{{path('app_show_car', {'id': car.id}) }}" 
+                                            target="_blank"
+                                            >
+                                                {{ car.brand }} {{ car.model }}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </td>
+                        <td class="cell table_edit_btn">
+                            {# <a href="{{ path('app_admin_edit_seller', {id: user.id} ) }}" class="block">EDIT</a> #}
+                            <a href="#" class="block">EDIT</a>
+                        </td>
+                        <td class="cell table_delete_btn">
+                            {# <a href="{{ path('app_admin_delete_seller', {id: user.id}) }}" class="block">DELETE</a> #}
+                            <a href="#" class="block">DELETE</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

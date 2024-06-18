@@ -43,6 +43,16 @@ class SellerRepository extends ServiceEntityRepository
             return array_map('intval', array_column($qb->getQuery()->getScalarResult(), 'id'));
         }
 
+        public function findAllSellersWithCarIds()
+        {
+            return $this->createQueryBuilder('s')
+                ->select('s', 'c')
+                ->leftJoin('s.cars', 'c')
+                ->orderBy('s.id','DESC')
+                ->getQuery()
+                ->getResult();
+        }
+
 
     //    /**
     //     * @return Seller[] Returns an array of Seller objects

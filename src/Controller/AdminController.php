@@ -10,6 +10,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\User;
 use App\Form\AdminUserEditType;
 use App\Repository\CarRepository;
+use App\Repository\SellerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -90,6 +91,19 @@ class AdminController extends AbstractController
 
         return $this->render('admin/cars.html.twig', [
             'cars' => $cars,
+        ]);
+    }
+
+    /** 
+     * Sellers administration
+     */
+    #[Route('/admin/sellers', name: 'app_admin_sellers')]
+    public function sellers(SellerRepository $sellerRepository): Response
+    {
+        $sellers = $sellerRepository->findAllSellersWithCarIds();
+
+        return $this->render('admin/sellers.html.twig', [
+            'sellers' => $sellers,
         ]);
     }
 }
